@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug</title>
+    <script src="../packages/vue/dist/vue.global.js"></script>
+    <style>
+      .red {
+        color: red;
+      }
+      .blue {
+        color: blue;
+      }
+      span {
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <span
+        :class="count % 2 === 0 ? 'red' : 'blue'"
+        :style="'font-size: 14px; font-weight: bold;'"
+      >
+        {{ count }}
+      </span>
+
+      <button
+        @click="add"
+        :style="{
+                color: 'red'
+            }"
+      >
+        增加
+      </button>
+      <test :count="count"></test>
+      <ul>
+        <li v-for="item in 10">{{ item }}</li>
+      </ul>
+      <suspense>
+        <div id="suspense">supense组件</div>
+      </suspense>
+      <teleport to="body #suspense">
+        <div>telport组件</div>
+      </teleport>
+    </div>
+    <script>
+      const { createApp, reactive, ref, onBeforeMount, onMounted } = Vue
+
+      const children = {
+        props: {
+          count: String,
+          test: {
+            type: Boolean,
+          },
+        },
+        setup() {
+          onBeforeMount(() => {
+            console.log('子组件渲染之前')
+          })
+          onMounted(() => {
+            console.log('子组件渲染完成')
+          })
+        },
+        template: `
+                <div>这是子组件</div>
+                <div>这是父组件接受的count：{{count}}</div>
+            `,
+      }
+      debugger
+      const app = createApp({
+        components: {
+          test: children,
+        },
+        setup() {
+          const count = ref(0)
+          const add = () => {
+            console.log(count)
+            count.value++
+          }
+          console.log(this)
+          onBeforeMount(() => {
+            console.log('渲染之前')
+          })
+          onMounted(() => {
+            console.log('渲染完成')
+          })
+
+          return {
+            count,
+            add,
+          }
+        },
+      }).mount('#app')
+    </script>
+  </body>
+</html>
