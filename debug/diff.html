@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diff debug</title>
+    <script src="../packages/vue/dist/vue.global.js"></script>
+    <style>
+      button + button {
+        margin-left: 12px;
+      }
+
+      input {
+        margin-left: 12px;
+        margin-right: 6px;
+      }
+
+      section {
+        display: inline-flex;
+        margin: 12px 0;
+        border: 1px solid gray;
+      }
+
+      section > div:not(:first-child) {
+        border-left: 1px solid gray;
+      }
+
+      section > div > header {
+        border-bottom: 1px solid gray;
+        padding: 12px;
+      }
+
+      section > div > ul {
+        padding: 12px;
+      }
+
+      ul > li {
+        list-style: none;
+      }
+
+      ul.change {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="reset" :disabled="!(isReady||isChange)">重置</button>
+      <hr />
+      <template v-for="(simple,idx) in listSimple" :key="idx">
+        <input
+          type="radio"
+          :value="idx"
+          :id="`radio${idx}`"
+          name="simple"
+          @change="simpleChange"
+          :checked="idx===simpleCurrent"
+          :disabled="isReady||isChange"
+        />
+        <label :for="`radio${idx}`">{{simple.label}}</label>
+        <br />
+      </template>
+      <hr />
+      <button @click="start" :disabled="isReady">开始</button>
+      <button @click="change" :disabled="!isReady||isChange">改变</button>
+      <div>
+        <section>
+          <div>
+            <header>数组</header>
+            <ul :class="{list:isReady,change:isChange}">
+              <li v-for="item in listOld" :key="item.id">{{ item.id }}</li>
+            </ul>
+          </div>
+          <div>
+            <header>变化目标</header>
+            <ul>
+              <li v-for="item in listNew">{{ item.id }}</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script>
+      const { createApp, ref, nextTick } = Vue
+
+      const app = createApp({
+        setup() {
+          const listOld = ref([])
+          const listNew = ref([])
+
+          const listSimple = ref([
+            {
+              label: '测试diff步骤3',
+              data: [
+                [{ id: 'a' }, { id: 'b' }],
+                [{ id: 'c' }, { id: 'a' }, { id: 'b' }],
+              ],
+            },
+            {
+              label: '测试diff步骤4',
+              data: [
+                [{ id: 'a' }, { id: 'b' }, { id: 'c' }],
+                [{ id: 'a' }, { id: 'b' }],
+              ],
+            },
+            {
+              label: '测试diff步骤5 1',
+              data: [
+                [
+                  { id: 'a' },
+                  { id: 'b' },
+                  { id: 'g' },
+                  { id: 'c' },
+                  { id: 'd' },
+                  { id: 'h' },
+                  { id: 'e' },
+                  { id: 'f' },
+                ],
+                [
+                  { id: 'a' },
+                  { id: 'g' },
+                  { id: 'h' },
+                  { id: 'e' },
+                  { id: 'b' },
+                  { id: 'f' },
+                ],
+              ],
+            },
+            {
+              label: '测试diff步骤5 2',
+              data: [
+                [
+                  { id: 'a' },
+                  { id: 'g' },
+                  { id: 'h' },
+                  { id: 'e' },
+                  { id: 'b' },
+                  { id: 'f' },
+                ],
+                [
+                  { id: 'a' },
+                  { id: 'b' },
+                  { id: 'g' },
+                  { id: 'c' },
+                  { id: 'd' },
+                  { id: 'h' },
+                  { id: 'e' },
+                  { id: 'f' },
+                ],
+              ],
+            },
+            {
+              label: '测试diff步骤5 3',
+              data: [
+                [
+                  { id: 'a' },
+                  { id: 'b' },
+                  { id: 'g' },
+                  { id: 'c' },
+                  { id: 'd' },
+                  { id: 'h' },
+                  { id: 'e' },
+                  { id: 'f' },
+                ],
+                [
+                  { id: 'b' },
+                  { id: 'e' },
+                  { id: 'c' },
+                  { id: 'd' },
+                  { id: 'i' },
+                  { id: 'a' },
+                  { id: 'f' },
+                ],
+              ],
+            },
+            {
+              label: '测试diff步骤5 4',
+              data: [
+                [
+                  { id: 'a' },
+                  { id: 'b' },
+                  { id: 'c' },
+                  { id: 'd' },
+                  { id: 'e' },
+                  { id: 'f' },
+                  { id: 'g' },
+                  { id: 'h' },
+                ],
+                [
+                  { id: 'a' },
+                  { id: 'b' },
+                  { id: 'k' },
+                  { id: 'd' },
+                  { id: 'e' },
+                  { id: 'c' },
+                  { id: 'i' },
+                  { id: 'j' },
+                  { id: 'g' },
+                  { id: 'h' },
+                ],
+              ],
+            },
+          ])
+          const simpleCurrent = ref(0)
+          const simpleChange = e => {
+            simpleCurrent.value = parseInt(e.target.value)
+          }
+
+          const isReady = ref(false)
+          const isChange = ref(false)
+
+          const reset = () => {
+            isChange.value = false
+            isReady.value = false
+
+            nextTick(() => {
+              listOld.value = []
+              listNew.value = []
+              console.clear()
+            })
+          }
+          const start = () => {
+            listOld.value = listSimple.value[simpleCurrent.value].data[0]
+            listNew.value = listSimple.value[simpleCurrent.value].data[1]
+            isReady.value = true
+          }
+          const change = () => {
+            listOld.value = listNew.value
+            isChange.value = true
+          }
+          return {
+            listOld,
+            listNew,
+            //
+            listSimple,
+            simpleCurrent,
+            simpleChange,
+            //
+            isReady,
+            isChange,
+            //
+            reset,
+            start,
+            change,
+          }
+        },
+      }).mount('#app')
+    </script>
+  </body>
+</html>

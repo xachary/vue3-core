@@ -1725,6 +1725,54 @@ function baseCreateRenderer(
     }
   }
 
+  const logTitle = (str: string, container: RendererElement) => {
+    if (container.classList.contains('list')) {
+      getGlobalThis().console!.groupEnd()
+      getGlobalThis().console!.group('%c%s', 'color:yellow', str)
+    }
+  }
+
+  const log = (
+    c1: VNode[],
+    c2: VNodeArrayChildren,
+    container: RendererElement,
+    i: number,
+    e1: number,
+    e2: number,
+  ) => {
+    if (container.classList.contains('list')) {
+      const L1 = c1.map(o => o.props!.key)
+      const L1P = new Array(L1.length).fill(' ')
+      L1P[i] = '↓'
+      L1P[e1] = '↓'
+      const L2 = c2.map(o => (o! as VNode).props!.key)
+      const L2P = new Array(L2.length).fill(' ')
+      L2P[i] = '↑'
+      L2P[e2] = '↑'
+
+      getGlobalThis().console!.log('      ' + L1P.join(''))
+      getGlobalThis().console!.log('%c%s', 'color:pink', 'c1 -> ' + L1.join(''))
+      getGlobalThis().console!.log(
+        '%c%s',
+        'color:green',
+        'c2 -> ' + L2.join(''),
+      )
+      getGlobalThis().console!.log('      ' + L2P.join(''))
+      getGlobalThis().console!.log(
+        'dom-> ' + [...container.children].map(o => o.innerText).join(''),
+      )
+      getGlobalThis().console!.log(
+        new Array(
+          Math.max(L1.length, L2.length, container.children.length) +
+            'cn -> '.length,
+        )
+          .fill('-')
+          .join(''),
+      )
+      debugger
+    }
+  }
+
   const patchUnkeyedChildren = (
     c1: VNode[],
     c2: VNodeArrayChildren,
@@ -1801,6 +1849,10 @@ function baseCreateRenderer(
     let e1 = c1.length - 1 // prev ending index
     let e2 = l2 - 1 // next ending index
 
+    // Debug: start
+    logTitle('1. 头头对比（发现不一样就跳出）', container)
+    // Debug: end
+
     // 1. sync from start
     // (a b) c
     // (a b) d e
@@ -1809,6 +1861,7 @@ function baseCreateRenderer(
       const n2 = (c2[i] = optimized
         ? cloneIfMounted(c2[i] as VNode)
         : normalizeVNode(c2[i]))
+
       if (isSameVNodeType(n1, n2)) {
         patch(
           n1,
@@ -1821,11 +1874,21 @@ function baseCreateRenderer(
           slotScopeIds,
           optimized,
         )
+        // Debug: start
+        log(c1, c2, container, i, e1, e2)
+        // Debug: end
       } else {
+        // Debug: start
+        log(c1, c2, container, i, e1, e2)
+        // Debug: end
         break
       }
       i++
     }
+
+    // Debug: start
+    logTitle('2. 尾尾对比（发现不一样就跳出）', container)
+    // Debug: end
 
     // 2. sync from end
     // a (b c)
@@ -1835,6 +1898,7 @@ function baseCreateRenderer(
       const n2 = (c2[e2] = optimized
         ? cloneIfMounted(c2[e2] as VNode)
         : normalizeVNode(c2[e2]))
+
       if (isSameVNodeType(n1, n2)) {
         patch(
           n1,
@@ -1847,7 +1911,13 @@ function baseCreateRenderer(
           slotScopeIds,
           optimized,
         )
+        // Debug: start
+        log(c1, c2, container, i, e1, e2)
+        // Debug: end
       } else {
+        // Debug: start
+        log(c1, c2, container, i, e1, e2)
+        // Debug: end
         break
       }
       e1--
@@ -1863,6 +1933,12 @@ function baseCreateRenderer(
     // i = 0, e1 = -1, e2 = 0
     if (i > e1) {
       if (i <= e2) {
+        // Debug: start
+        logTitle(
+          '3. 如果老节点已经全部被patch，新节点没有被patch完，创建新的vnode',
+          container,
+        )
+        // Debug: end
         const nextPos = e2 + 1
         const anchor = nextPos < l2 ? (c2[nextPos] as VNode).el : parentAnchor
         while (i <= e2) {
@@ -1879,6 +1955,9 @@ function baseCreateRenderer(
             slotScopeIds,
             optimized,
           )
+          // Debug: start
+          log(c1, c2, container, i, e1, e2)
+          // Debug: end
           i++
         }
       }
@@ -1892,8 +1971,17 @@ function baseCreateRenderer(
     // (b c)
     // i = 0, e1 = 0, e2 = -1
     else if (i > e2) {
+      // Debug: start
+      logTitle(
+        '4. 如果新节点已经全部被patch，老节点没有被patch完，那么卸载所有老节点',
+        container,
+      )
+      // Debug: end
       while (i <= e1) {
         unmount(c1[i], parentComponent, parentSuspense, true)
+        // Debug: start
+        log(c1, c2, container, i, e1, e2)
+        // Debug: end
         i++
       }
     }
@@ -1903,8 +1991,15 @@ function baseCreateRenderer(
     // [i ... e2 + 1]: a b [e d c h] f g
     // i = 2, e1 = 4, e2 = 5
     else {
+      // Debug: start
+      logTitle('5. 不确定的元素', container)
+      // Debug: end
       const s1 = i // prev starting index
       const s2 = i // next starting index
+
+      // Debug: start
+      logTitle('5.1 c2剩余片段key/index记录', container)
+      // Debug: end
 
       // 5.1 build key:index map for newChildren
       const keyToNewIndexMap: Map<string | number | symbol, number> = new Map()
@@ -1924,6 +2019,23 @@ function baseCreateRenderer(
         }
       }
 
+      // Debug: start
+      logTitle(
+        'keyToNewIndexMap: ' +
+          [...keyToNewIndexMap]
+            .map(o => `${o[0].toString()}:${o[1].toString()}`)
+            .join(', '),
+        container,
+      )
+      // Debug: end
+
+      // Debug: start
+      logTitle(
+        '5.2 c1剩余片段，从左逐个判断是否存在于c2，不存在就移除；存在就记录新老位置关系；',
+        container,
+      )
+      // Debug: end
+
       // 5.2 loop through old children left to be patched and try to patch
       // matching nodes & remove nodes that are no longer present
       let j
@@ -1938,13 +2050,18 @@ function baseCreateRenderer(
       // no corresponding old node.
       // used for determining longest stable subsequence
       const newIndexToOldIndexMap = new Array(toBePatched)
-      for (i = 0; i < toBePatched; i++) newIndexToOldIndexMap[i] = 0
+      for (i = 0; i < toBePatched; i++) {
+        newIndexToOldIndexMap[i] = 0
+      }
 
       for (i = s1; i <= e1; i++) {
         const prevChild = c1[i]
         if (patched >= toBePatched) {
           // all new children have been patched so this can only be a removal
           unmount(prevChild, parentComponent, parentSuspense, true)
+          // Debug: start
+          log(c1, c2, container, i, e1, e2)
+          // Debug: end
           continue
         }
         let newIndex
@@ -1964,6 +2081,9 @@ function baseCreateRenderer(
         }
         if (newIndex === undefined) {
           unmount(prevChild, parentComponent, parentSuspense, true)
+          // Debug: start
+          log(c1, c2, container, i, e1, e2)
+          // Debug: end
         } else {
           newIndexToOldIndexMap[newIndex - s2] = i + 1
           if (newIndex >= maxNewIndexSoFar) {
@@ -1982,9 +2102,19 @@ function baseCreateRenderer(
             slotScopeIds,
             optimized,
           )
+          // Debug: start
+          log(c1, c2, container, i, e1, e2)
+          // Debug: end
           patched++
         }
       }
+
+      // Debug: start
+      logTitle(
+        '5.3 move and mount generate longest stable subsequence only when nodes have moved',
+        container,
+      )
+      // Debug: end
 
       // 5.3 move and mount
       // generate longest stable subsequence only when nodes have moved
@@ -1993,11 +2123,17 @@ function baseCreateRenderer(
         : EMPTY_ARR
       j = increasingNewIndexSequence.length - 1
       // looping backwards so that we can use last patched node as anchor
+      if (!(toBePatched - 1 >= 0)) {
+        // Debug: start
+        log(c1, c2, container, i, e1, e2)
+        // Debug: end
+      }
       for (i = toBePatched - 1; i >= 0; i--) {
         const nextIndex = s2 + i
         const nextChild = c2[nextIndex] as VNode
         const anchor =
           nextIndex + 1 < l2 ? (c2[nextIndex + 1] as VNode).el : parentAnchor
+
         if (newIndexToOldIndexMap[i] === 0) {
           // mount new
           patch(
@@ -2011,17 +2147,27 @@ function baseCreateRenderer(
             slotScopeIds,
             optimized,
           )
+          // Debug: start
+          log(c1, c2, container, i, e1, e2)
+          // Debug: end
         } else if (moved) {
           // move if:
           // There is no stable subsequence (e.g. a reverse)
           // OR current node is not among the stable sequence
           if (j < 0 || i !== increasingNewIndexSequence[j]) {
             move(nextChild, container, anchor, MoveType.REORDER)
+            // Debug: start
+            log(c1, c2, container, i, e1, e2)
+            // Debug: end
           } else {
             j--
           }
         }
       }
+
+      // Debug: start
+      getGlobalThis().console!.groupEnd()
+      // Debug: end
     }
   }
 
