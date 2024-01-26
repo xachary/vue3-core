@@ -34,9 +34,17 @@
       >
         增加
       </button>
+      <button
+        @click="list.shift()"
+        :style="{
+                color: 'red'
+            }"
+      >
+        调整list
+      </button>
       <test :count="count"></test>
       <ul>
-        <li v-for="item in 10">{{ item }}</li>
+        <li v-for="item in list" :key="item.id">{{ item }}</li>
       </ul>
       <suspense>
         <div id="suspense">supense组件</div>
@@ -75,6 +83,7 @@
         },
         setup() {
           const count = ref(0)
+          const list = ref([{id:1},{id:2},{id:3},{id:4},{id:5}])
           const add = () => {
             console.log(count)
             count.value++
@@ -90,6 +99,7 @@
           return {
             count,
             add,
+            list,
           }
         },
       }).mount('#app')
