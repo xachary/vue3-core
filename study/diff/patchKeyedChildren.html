@@ -149,6 +149,249 @@
             <header>{{item.title}}</header>
             <p>{{item.desc}}</p>
           </template>
+          <template v-else-if="item.type==='newIndexToOldIndexMap'">
+            <header>newIndexToOldIndexMap</header>
+            <div>
+              <label>index:</label>
+              <ul>
+                <li>-1</li>
+                <li
+                  v-for="n in Math.max(from.split('').length,to.split('').length)"
+                  :key="n"
+                  :style="{
+                    color:item.newIndexToOldIndexMap.includes(n)?'green':''
+                  }"
+                >
+                  {{n-1}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>from:</label>
+              <ul>
+                <li></li>
+                <li
+                  v-for="t in from.split('').map((key,idx)=>({key,idx}))"
+                  :key="t.idx"
+                  :style="{
+                      color:t.idx>=item.i&&t.idx<=item.e1?item.newIndexToOldIndexMap.includes(t.idx+1)?'green':'red':''
+                    }"
+                >
+                  {{t.key}}
+                </li>
+                <li
+                  v-for="n in (to.split('').length - from.split('').length)"
+                  :key="n"
+                  v-if="to.split('').length>from.split('').length"
+                ></li>
+              </ul>
+            </div>
+            <div>
+              <label>to:</label>
+              <ul>
+                <li></li>
+                <li
+                  v-for="t in to.split('').map((key,idx)=>({key,idx}))"
+                  :key="t.idx"
+                  :style="{
+                      color:t.idx>=item.i&&t.idx<=item.e2?'red':''
+                    }"
+                >
+                  {{t.key}}
+                </li>
+                <li
+                  v-for="n in (from.split('').length - to.split('').length)"
+                  :key="n"
+                  v-if="from.split('').length>to.split('').length"
+                ></li>
+              </ul>
+            </div>
+            <div>
+              <label>map:</label>
+              <ul>
+                <li></li>
+                <li
+                  v-for="t in to.split('').map((key,idx)=>({key,idx}))"
+                  :key="t.idx"
+                  :style="{
+                      color:t.idx>=item.i&&t.idx<=item.e2?'green':''
+                    }"
+                >
+                  {{t.idx>=item.i&&t.idx<=item.e2?item.newIndexToOldIndexMap.map(o=>o-1)[t.idx-item.i
+                  ]:''}}
+                </li>
+                <li
+                  v-for="n in (from.split('').length - to.split('').length)"
+                  :key="n"
+                  v-if="from.split('').length>to.split('').length"
+                ></li>
+              </ul>
+            </div>
+            <div>
+              <label>dom</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{n-1>-1?item.container[n-1]:''}}
+                </li>
+              </ul>
+            </div>
+          </template>
+          <template v-else-if="item.type==='increasingNewIndexSequence'">
+            <header>increasingNewIndexSequence</header>
+            <div>
+              <label>map:</label>
+              <ul>
+                <li
+                  v-for="t in item.newIndexToOldIndexMap.map(o=>o-1).map((key,idx)=>({key,idx}))"
+                  :key="t.idx"
+                  :style="{
+                      color:true?'green':'green'
+                    }"
+                >
+                  {{t.key}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>seq:</label>
+              <ul>
+                <li
+                  v-for="t in item.newIndexToOldIndexMap.map(o=>o-1).map((key,idx)=>({key,idx}))"
+                  :key="t.idx"
+                  :style="{
+                    color:item.increasingNewIndexSequence.includes(t.idx)?'red':'green'
+                  }"
+                >
+                  {{item.increasingNewIndexSequence.includes(t.idx)?t.idx:''}}
+                </li>
+              </ul>
+            </div>
+          </template>
+          <template v-else-if="item.type==='anchor'">
+            <header>
+              从后往前遍历 to
+              的【未知的序列】{{item.increasingNewIndexSequence.includes(item.nextIndex
+              - item.i)&&item.nextIndex - item.i>0?'【最长增长序列】中':''}}
+            </header>
+            <div>
+              <label>index:</label>
+              <ul>
+                <li>-1</li>
+                <li
+                  v-for="n in Math.max(from.split('').length,to.split('').length)"
+                  :key="n"
+                >
+                  {{n-1}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>to:</label>
+              <ul>
+                <li></li>
+                <li
+                  v-for="t in to.split('').map((key,idx)=>({key,idx}))"
+                  :key="t.idx"
+                  :style="{
+                        color:t.idx===item.nextIndex+1?'green':t.idx>=item.i&&t.idx<=item.e2?'red':''
+                      }"
+                >
+                  {{t.key}}
+                </li>
+                <li
+                  v-for="n in (from.split('').length - to.split('').length)"
+                  :key="n"
+                  v-if="from.split('').length>to.split('').length"
+                ></li>
+              </ul>
+            </div>
+            <div>
+              <label>nI</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{item.nextIndex+1===n-2?'←':item.nextIndex===n-2?'↑':''}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>dom</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                  :style="{
+                    color:to.split('')[item.nextIndex+1]===item.container[n-1]?'green':to.split('')[item.nextIndex]===item.container[n-1]?'blue':''
+                  }"
+                >
+                  {{n-1>-1?item.container[n-1]:''}}
+                </li>
+              </ul>
+            </div>
+          </template>
+          <template v-else-if="item.type==='anchorMount'">
+            <header>插入新增元素</header>
+            <div>
+              <label>index:</label>
+              <ul>
+                <li>-1</li>
+                <li
+                  v-for="n in Math.max(from.split('').length,to.split('').length)"
+                  :key="n"
+                >
+                  {{n-1}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>dom</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                  :style="{
+                    color:to.split('')[item.nextIndex+1]===item.container[n-1]?'green':to.split('')[item.nextIndex]===item.container[n-1]?'blue':''
+                  }"
+                >
+                  {{n-1>-1?item.container[n-1]:''}}
+                </li>
+              </ul>
+            </div>
+          </template>
+          <template v-else-if="item.type==='anchorMove'">
+            <header>移动元素</header>
+            <div>
+              <label>index:</label>
+              <ul>
+                <li>-1</li>
+                <li
+                  v-for="n in Math.max(from.split('').length,to.split('').length)"
+                  :key="n"
+                >
+                  {{n-1}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>dom</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                  :style="{
+                    color:to.split('')[item.nextIndex+1]===item.container[n-1]?'green':to.split('')[item.nextIndex]===item.container[n-1]?'blue':''
+                  }"
+                >
+                  {{n-1>-1?item.container[n-1]:''}}
+                </li>
+              </ul>
+            </div>
+          </template>
           <template v-else-if="item.type==='5.2'">
             <div>
               <label>index:</label>
@@ -193,7 +436,7 @@
                 <li></li>
                 <li
                   v-for="t in from.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.key"
+                  :key="t.idx"
                   :style="{
                     color:t.idx===item.i?item.title.includes('没了')?'red':'green':''
                   }"
@@ -252,7 +495,7 @@
                 <li></li>
                 <li
                   v-for="t in from.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.key"
+                  :key="t.idx"
                   :style="{
                     color:t.idx>=item.i&&t.idx<=item.e1?'red':''
                   }"
@@ -272,7 +515,7 @@
                 <li></li>
                 <li
                   v-for="t in to.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.key"
+                  :key="t.idx"
                   :style="{
                     color:t.idx>=item.i&&t.idx<=item.e2?'red':''
                   }"
@@ -564,7 +807,7 @@
                   setTimeout(() => {
                     active = false
                     logsSnap.value = [...logs.value]
-                  }, 200)
+                  }, 100)
                 })
               })
             },

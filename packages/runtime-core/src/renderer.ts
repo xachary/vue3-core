@@ -1801,6 +1801,9 @@ function baseCreateRenderer(
       keyToNewIndexMap = {},
       newIndexToOldIndexMap = [],
       increasingNewIndexSequence = [],
+      nextIndex = -1,
+      nextChild = '',
+      anchor = '',
     }: {
       container: RendererElement
       scope?: string
@@ -1817,6 +1820,9 @@ function baseCreateRenderer(
       keyToNewIndexMap?: any
       newIndexToOldIndexMap?: number[]
       increasingNewIndexSequence?: number[]
+      nextIndex?: number
+      nextChild?: string
+      anchor?: string
     }) => {
       if (container.classList.contains('done')) {
         ;(globalThis as any).dispatchEvent(
@@ -1837,6 +1843,9 @@ function baseCreateRenderer(
               keyToNewIndexMap,
               newIndexToOldIndexMap,
               increasingNewIndexSequence,
+              nextIndex,
+              nextChild,
+              anchor,
             },
           } as any),
         )
@@ -2270,6 +2279,11 @@ function baseCreateRenderer(
         type: 'newIndexToOldIndexMap',
         title: '',
         desc: '',
+        i: s1,
+        e1,
+        e2,
+        c1,
+        c2,
         keyToNewIndexMap,
         newIndexToOldIndexMap,
       })
@@ -2311,6 +2325,27 @@ function baseCreateRenderer(
         const nextChild = c2[nextIndex] as VNode
         const anchor =
           nextIndex + 1 < l2 ? (c2[nextIndex + 1] as VNode).el : parentAnchor
+
+        // Debug: start
+        logger.dispatch({
+          container,
+          type: 'anchor',
+          title: '',
+          desc: '',
+          i: s1,
+          e1,
+          e2,
+          c1,
+          c2,
+          keyToNewIndexMap,
+          newIndexToOldIndexMap,
+          increasingNewIndexSequence: increasingNewIndexSequence as number[],
+          nextIndex,
+          nextChild: nextChild.key?.toString(),
+          anchor: anchor?.key?.toString(),
+        })
+        // Debug: end
+
         if (newIndexToOldIndexMap[i] === 0) {
           // mount new
           patch(
@@ -2324,12 +2359,51 @@ function baseCreateRenderer(
             slotScopeIds,
             optimized,
           )
+          // Debug: start
+          logger.dispatch({
+            container,
+            type: 'anchorMount',
+            title: '',
+            desc: '',
+            i: s1,
+            e1,
+            e2,
+            c1,
+            c2,
+            keyToNewIndexMap,
+            newIndexToOldIndexMap,
+            increasingNewIndexSequence: increasingNewIndexSequence as number[],
+            nextIndex,
+            nextChild: nextChild.key?.toString(),
+            anchor: anchor?.key?.toString(),
+          })
+          // Debug: end
         } else if (moved) {
           // move if:
           // There is no stable subsequence (e.g. a reverse)
           // OR current node is not among the stable sequence
           if (j < 0 || i !== increasingNewIndexSequence[j]) {
             move(nextChild, container, anchor, MoveType.REORDER)
+            // Debug: start
+            logger.dispatch({
+              container,
+              type: 'anchorMove',
+              title: '',
+              desc: '',
+              i: s1,
+              e1,
+              e2,
+              c1,
+              c2,
+              keyToNewIndexMap,
+              newIndexToOldIndexMap,
+              increasingNewIndexSequence:
+                increasingNewIndexSequence as number[],
+              nextIndex,
+              nextChild: nextChild.key?.toString(),
+              anchor: anchor?.key?.toString(),
+            })
+            // Debug: end
           } else {
             j--
           }
