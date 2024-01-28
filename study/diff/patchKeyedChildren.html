@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>diff - patchKeyedChildren</title>
+    <!-- <script src="../vue.global.js"></script> -->
+    <script src="../../packages/vue/dist/vue.global.js"></script>
+    <style>
+      body {
+        margin: 0;
+      }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .board {
+        display: flex;
+        height: 100vh;
+      }
+      .board > ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .board > ul > li > div > * {
+        display: inline-block;
+      }
+      .board > ul > li > div > label {
+        width: 50px;
+        text-align: right;
+        margin-right: 6px;
+      }
+      .board > div {
+        flex-grow: 1;
+        width: 0;
+        height: 100%;
+        overflow: auto;
+      }
+      .board > div > header > div {
+        display: flex;
+        margin: 4px 0;
+      }
+      .board > div > header > div > label,
+      .board > div > section > div > label {
+        width: 50px;
+        text-align: right;
+        margin-right: 6px;
+      }
+      .board > div > header > div > input {
+        flex-grow: 1;
+      }
+      .board > div > section > div {
+        display: flex;
+        margin: 4px 0;
+      }
+      .board > div > section > div > ul {
+        display: flex;
+      }
+      .board > div > section > div > ul > li {
+        width: 1.6em;
+        height: 1.6em;
+        line-height: 1.6em;
+        text-align: center;
+        margin-right: 4px;
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="board">
+      <ul>
+        <li v-for="(item,i) in testUnits" :key="i" @click="testSelect(item)">
+          <header>{{item.desc}}</header>
+          <div>
+            <label>from:</label>
+
+            <span>{{item.from}}</span>
+          </div>
+          <div>
+            <label>to:</label>
+
+            <span>{{item.to}}</span>
+          </div>
+        </li>
+      </ul>
+      <div>
+        <header>
+          <div>
+            <label>from:</label>
+            <input type="text" v-model="from" />
+          </div>
+          <div>
+            <label>to:</label>
+            <input type="text" v-model="to" />
+          </div>
+        </header>
+        <hr />
+        <section>
+          <div>
+            <label>index:</label>
+            <ul>
+              <li>-1</li>
+              <li
+                v-for="n in Math.max(from.split('').length,to.split('').length)"
+                :key="n"
+              >
+                {{n-1}}
+              </li>
+            </ul>
+          </div>
+          <div>
+            <label>from:</label>
+            <ul>
+              <li></li>
+              <li v-for="item in from.split('')" :key="item">{{item}}</li>
+              <li
+                v-for="n in (to.split('').length - from.split('').length)"
+                :key="n"
+                v-if="to.split('').length>from.split('').length"
+              ></li>
+            </ul>
+          </div>
+          <div>
+            <label>to:</label>
+            <ul>
+              <li></li>
+              <li v-for="item in to.split('')" :key="item">{{item}}</li>
+              <li
+                v-for="n in (from.split('').length - to.split('').length)"
+                :key="n"
+                v-if="from.split('').length>to.split('').length"
+              ></li>
+            </ul>
+          </div>
+          <div>
+            <label>done:</label>
+            <ul class="done">
+              <li></li>
+              <li v-for="item in done.split('')" :key="item">{{item}}</li>
+            </ul>
+          </div>
+        </section>
+        <hr />
+        <section v-for="(item,i) in logsSnap" :key="i">
+          <template v-if="item.type==='step'||item.type==='text'">
+            <header>{{item.title}}</header>
+            <p>{{item.desc}}</p>
+          </template>
+          <template v-else-if="item.type==='5.2'">
+            <div>
+              <label>index:</label>
+              <ul>
+                <li>-1</li>
+                <li
+                  v-for="n in Math.max(from.split('').length,to.split('').length)"
+                  :key="n"
+                  :style="{
+                    color:n-1>=item.s1&&n-1<=item.e1?'red':''
+                  }"
+                >
+                  {{n-1}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>e1</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{item.e1===n-2?'↓':''}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>i</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{item.i===n-2?'↓':''}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>from:</label>
+              <ul>
+                <li></li>
+                <li
+                  v-for="t in from.split('').map((key,idx)=>({key,idx}))"
+                  :key="t.key"
+                  :style="{
+                    color:t.idx===item.i?item.title.includes('没了')?'red':'green':''
+                  }"
+                >
+                  {{t.key}}
+                </li>
+                <li
+                  v-for="n in (to.split('').length - from.split('').length)"
+                  :key="n"
+                  v-if="to.split('').length>from.split('').length"
+                ></li>
+              </ul>
+            </div>
+            <div>
+              <label>to:</label>
+              <ul>
+                <li></li>
+                <li v-for="t in to.split('')" :key="t">{{t}}</li>
+                <li
+                  v-for="n in (from.split('').length - to.split('').length)"
+                  :key="n"
+                  v-if="from.split('').length>to.split('').length"
+                ></li>
+              </ul>
+            </div>
+            <header>{{item.title}}</header>
+            <div>
+              <label>dom</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{n-1>-1?item.container[n-1]:''}}
+                </li>
+              </ul>
+            </div>
+          </template>
+          <template v-else-if="item.type==='unknownSequence'">
+            <header>unknownSequence</header>
+            <div>
+              <label>index:</label>
+              <ul>
+                <li>-1</li>
+                <li
+                  v-for="n in Math.max(from.split('').length,to.split('').length)"
+                  :key="n"
+                >
+                  {{n-1}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>from:</label>
+              <ul>
+                <li></li>
+                <li
+                  v-for="t in from.split('').map((key,idx)=>({key,idx}))"
+                  :key="t.key"
+                  :style="{
+                    color:t.idx>=item.i&&t.idx<=item.e1?'red':''
+                  }"
+                >
+                  {{t.key}}
+                </li>
+                <li
+                  v-for="n in (to.split('').length - from.split('').length)"
+                  :key="n"
+                  v-if="to.split('').length>from.split('').length"
+                ></li>
+              </ul>
+            </div>
+            <div>
+              <label>to:</label>
+              <ul>
+                <li></li>
+                <li
+                  v-for="t in to.split('').map((key,idx)=>({key,idx}))"
+                  :key="t.key"
+                  :style="{
+                    color:t.idx>=item.i&&t.idx<=item.e2?'red':''
+                  }"
+                >
+                  {{t.key}}
+                </li>
+                <li
+                  v-for="n in (from.split('').length - to.split('').length)"
+                  :key="n"
+                  v-if="from.split('').length>to.split('').length"
+                ></li>
+              </ul>
+            </div>
+          </template>
+          <template v-else-if="item.type==='keyToNewIndexMap'">
+            <header>keyToNewIndexMap</header>
+            <div>
+              <label>index:</label>
+              <ul>
+                <li>-1</li>
+                <li
+                  v-for="n in Math.max(from.split('').length,to.split('').length)"
+                  :key="n"
+                  :style="{
+                    color:item.keyToNewIndexMap.has(to.split('')[n-1])?'red':''
+                  }"
+                >
+                  {{n-1}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>to:</label>
+              <ul>
+                <li></li>
+                <li
+                  v-for="n in Math.max(from.split('').length,to.split('').length)"
+                  :key="n"
+                  :style="{
+                    color:item.keyToNewIndexMap.has(to.split('')[n-1])?'red':''
+                  }"
+                >
+                  {{to.split('')[n-1]||''}}
+                </li>
+              </ul>
+            </div>
+          </template>
+          <template v-else-if="item.type==='index'">
+            <div>
+              <label>index:</label>
+              <ul>
+                <li>-1</li>
+                <li
+                  v-for="n in Math.max(from.split('').length,to.split('').length)"
+                  :key="n"
+                >
+                  {{n-1}}
+                </li>
+              </ul>
+            </div>
+            <hr />
+            <div>
+              <label>e1</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{item.e1===n-2?'↓':''}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>i</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{item.i===n-2?'↓':''}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>from:</label>
+              <ul>
+                <li></li>
+                <li v-for="t in from.split('')" :key="t">{{t}}</li>
+                <li
+                  v-for="n in (to.split('').length - from.split('').length)"
+                  :key="n"
+                  v-if="to.split('').length>from.split('').length"
+                ></li>
+              </ul>
+            </div>
+            <div>
+              <label>to:</label>
+              <ul>
+                <li></li>
+                <li v-for="t in to.split('')" :key="t">{{t}}</li>
+                <li
+                  v-for="n in (from.split('').length - to.split('').length)"
+                  :key="n"
+                  v-if="from.split('').length>to.split('').length"
+                ></li>
+              </ul>
+            </div>
+            <div>
+              <label>i</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{item.i===n-2?'↑':''}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>e2</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{item.e2===n-2?'↑':''}}
+                </li>
+              </ul>
+            </div>
+            <div>
+              <label>dom</label>
+              <ul>
+                <li
+                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
+                  :key="n"
+                >
+                  {{n-1>-1?item.container[n-1]:''}}
+                </li>
+              </ul>
+            </div>
+          </template>
+          <hr />
+          <!-- <hr />
+          <div>
+            <label>e1</label>
+            <ul>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+          <div>
+            <label>i/s1</label>
+            <ul>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+          <div>
+            <label>from:</label>
+            <ul>
+              <li>a</li>
+              <li>b</li>
+              <li>c</li>
+            </ul>
+          </div>
+          <div>
+            <label>to:</label>
+            <ul>
+              <li>a</li>
+              <li>b</li>
+              <li>c</li>
+            </ul>
+          </div>
+          <div>
+            <label>i/s2</label>
+            <ul>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+          <div>
+            <label>e2</label>
+            <ul>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div> -->
+        </section>
+        <hr />
+      </div>
+    </div>
+    <script>
+      const { createApp, ref, nextTick, watch } = Vue
+
+      const app = createApp({
+        setup() {
+          const testUnits = ref([
+            {
+              desc: '测试步骤3 - 1',
+              from: 'ab',
+              to: 'abc',
+            },
+            {
+              desc: '测试步骤3 - 2',
+              from: 'ab',
+              to: 'cab',
+            },
+            {
+              desc: '测试步骤4 - 1',
+              from: 'abc',
+              to: 'ab',
+            },
+            {
+              desc: '测试步骤4 - 2',
+              from: 'abc',
+              to: 'bc',
+            },
+            {
+              desc: '测试步骤5 - 1',
+              from: 'abcd',
+              to: 'dcba',
+            },
+            {
+              desc: '测试步骤5 - 2',
+              from: 'abcd',
+              to: 'dcab',
+            },
+            {
+              desc: '测试步骤5 - 3',
+              from: 'abgcdhef',
+              to: 'aghebf',
+            },
+            {
+              desc: '测试步骤5 - 4',
+              from: 'aghebf',
+              to: 'abgcdhef',
+            },
+            {
+              desc: '测试步骤5 - 5',
+              from: 'abgcdhef',
+              to: 'becdiaf',
+            },
+            {
+              desc: '测试步骤5 - 6',
+              from: 'abcdefgh',
+              to: 'abkdecijgh',
+            },
+          ])
+
+          const from = ref(testUnits.value[0].from)
+          const to = ref(testUnits.value[0].to)
+          const done = ref('')
+          const logs = ref([])
+          const logsSnap = ref([])
+          let active = false
+
+          const txtPatch = txt => {
+            return txt.replace(/[^a-z]/g, '').replace(/([a-z])(.*)\1/, '$1$2')
+          }
+
+          watch(
+            [() => from.value, () => to.value],
+            () => {
+              to.value = txtPatch(to.value)
+              from.value = txtPatch(from.value)
+              done.value = from.value
+              active = false
+              logs.value = []
+              nextTick(() => {
+                active = true
+                done.value = to.value
+                nextTick(() => {
+                  setTimeout(() => {
+                    active = false
+                    logsSnap.value = [...logs.value]
+                  }, 200)
+                })
+              })
+            },
+            {
+              immediate: true,
+            },
+          )
+
+          const testSelect = item => {
+            from.value = item.from
+            to.value = item.to
+          }
+
+          window.addEventListener('message', ({ detail }) => {
+            if (active) {
+              console.log(detail)
+              logs.value.push(detail)
+            }
+          })
+
+          return {
+            testUnits,
+            testSelect,
+            from,
+            to,
+            done,
+            logs,
+            logsSnap,
+          }
+        },
+      }).mount('#app')
+    </script>
+  </body>
+</html>

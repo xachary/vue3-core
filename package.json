@@ -40,7 +40,8 @@
     "build-ssr-esm": "node scripts/build.js compiler-sfc server-renderer -f esm-browser",
     "build-sfc-playground-self": "cd packages/sfc-playground && npm run build",
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "simple-git-hooks"
+    "postinstall": "simple-git-hooks",
+    "debug": "npm run dev --sourcemap"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged && pnpm check",

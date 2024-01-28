@@ -1784,6 +1784,66 @@ function baseCreateRenderer(
     }
   }
 
+  const logger = {
+    dispatch: ({
+      container,
+      scope = 'patchKeyedChildren',
+      type = 'txt',
+      title = '',
+      desc = '',
+      i = -1,
+      e1 = -1,
+      e2 = -1,
+      s1 = -1,
+      s2 = -1,
+      c1 = [],
+      c2 = [],
+      keyToNewIndexMap = {},
+      newIndexToOldIndexMap = [],
+      increasingNewIndexSequence = [],
+    }: {
+      container: RendererElement
+      scope?: string
+      type?: string
+      title?: string
+      desc?: string
+      i?: number
+      e1?: number
+      e2?: number
+      s1?: number
+      s2?: number
+      c1?: any[]
+      c2?: any[]
+      keyToNewIndexMap?: any
+      newIndexToOldIndexMap?: number[]
+      increasingNewIndexSequence?: number[]
+    }) => {
+      if (container.classList.contains('done')) {
+        ;(globalThis as any).dispatchEvent(
+          new CustomEvent('message', {
+            detail: {
+              scope,
+              type,
+              title,
+              desc,
+              i,
+              e1,
+              e2,
+              s1,
+              s2,
+              c1: c1.map(o => o.key),
+              c2: c2.map(o => o.key),
+              container: [...container.children].map(o => o.innerText),
+              keyToNewIndexMap,
+              newIndexToOldIndexMap,
+              increasingNewIndexSequence,
+            },
+          } as any),
+        )
+      }
+    },
+  }
+
   // can be all-keyed or mixed
   const patchKeyedChildren = (
     c1: VNode[],
@@ -1800,6 +1860,16 @@ function baseCreateRenderer(
     const l2 = c2.length
     let e1 = c1.length - 1 // prev ending index
     let e2 = l2 - 1 // next ending index
+
+    // Debug: start
+    i <= e1 &&
+      logger.dispatch({
+        container,
+        type: 'step',
+        title: '1. sync from start',
+        desc: '头头对比（发现不一样就跳出）',
+      })
+    // Debug: end
 
     // 1. sync from start
     // (a b) c
@@ -1821,11 +1891,48 @@ function baseCreateRenderer(
           slotScopeIds,
           optimized,
         )
+        // Debug: start
+        logger.dispatch({
+          container,
+          type: 'index',
+          title: `i = ${i}`,
+          desc: `${n1.key?.toString()} === ${n2.key?.toString()} 继续`,
+          i,
+          e1,
+          e2,
+          c1,
+          c2,
+        })
+        // Debug: end
       } else {
+        // Debug: start
+        logger.dispatch({
+          container,
+          type: 'index',
+          title: `i = ${i}`,
+          desc: `${n1.key?.toString()} !== ${n2.key?.toString()} 中断`,
+          i,
+          e1,
+          e2,
+          c1,
+          c2,
+        })
+        // Debug: end
         break
       }
       i++
     }
+
+    // Debug: start
+    i <= e1 &&
+      i <= e2 &&
+      logger.dispatch({
+        container,
+        type: 'step',
+        title: '2. sync from end',
+        desc: '尾尾对比（发现不一样就跳出）',
+      })
+    // Debug: end
 
     // 2. sync from end
     // a (b c)
@@ -1847,7 +1954,33 @@ function baseCreateRenderer(
           slotScopeIds,
           optimized,
         )
+        // Debug: start
+        logger.dispatch({
+          container,
+          type: 'index',
+          title: `e1 = ${e1}, e2 = ${e2}`,
+          desc: `${n1.key?.toString()} === ${n2.key?.toString()} 继续`,
+          i,
+          e1,
+          e2,
+          c1,
+          c2,
+        })
+        // Debug: end
       } else {
+        // Debug: start
+        logger.dispatch({
+          container,
+          type: 'index',
+          title: `e1 = ${e1}, e2 = ${e2}`,
+          desc: `${n1.key?.toString()} !== ${n2.key?.toString()} 中断`,
+          i,
+          e1,
+          e2,
+          c1,
+          c2,
+        })
+        // Debug: end
         break
       }
       e1--
@@ -1863,6 +1996,14 @@ function baseCreateRenderer(
     // i = 0, e1 = -1, e2 = 0
     if (i > e1) {
       if (i <= e2) {
+        // Debug: start
+        logger.dispatch({
+          container,
+          type: 'step',
+          title: '3. common sequence + mount',
+          desc: '存在相同子序列，新增剩余子序列',
+        })
+        // Debug: end
         const nextPos = e2 + 1
         const anchor = nextPos < l2 ? (c2[nextPos] as VNode).el : parentAnchor
         while (i <= e2) {
@@ -1879,6 +2020,19 @@ function baseCreateRenderer(
             slotScopeIds,
             optimized,
           )
+          // Debug: start
+          logger.dispatch({
+            container,
+            type: 'index',
+            title: `i = ${i}`,
+            desc: ``,
+            i,
+            e1,
+            e2,
+            c1,
+            c2,
+          })
+          // Debug: end
           i++
         }
       }
@@ -1892,8 +2046,30 @@ function baseCreateRenderer(
     // (b c)
     // i = 0, e1 = 0, e2 = -1
     else if (i > e2) {
+      // Debug: start
+      i <= e1 &&
+        logger.dispatch({
+          container,
+          type: 'step',
+          title: '4. common sequence + unmount',
+          desc: '存在相同子序列，移除多余子序列',
+        })
+      // Debug: end
       while (i <= e1) {
         unmount(c1[i], parentComponent, parentSuspense, true)
+        // Debug: start
+        logger.dispatch({
+          container,
+          type: 'index',
+          title: `i = ${i}`,
+          desc: ``,
+          i,
+          e1,
+          e2,
+          c1,
+          c2,
+        })
+        // Debug: end
         i++
       }
     }
@@ -1903,8 +2079,40 @@ function baseCreateRenderer(
     // [i ... e2 + 1]: a b [e d c h] f g
     // i = 2, e1 = 4, e2 = 5
     else {
+      // Debug: start
+      logger.dispatch({
+        container,
+        type: 'step',
+        title: '5. unknown sequence',
+        desc: '未知的序列',
+      })
+      // Debug: end
+      // Debug: start
+      logger.dispatch({
+        container,
+        type: 'unknownSequence',
+        title: ``,
+        desc: ``,
+        i,
+        e1,
+        e2,
+        c1,
+        c2,
+      })
+      // Debug: end
+
       const s1 = i // prev starting index
       const s2 = i // next starting index
+
+      // Debug: start
+      s2 <= e2 &&
+        logger.dispatch({
+          container,
+          type: 'step',
+          title: '5.1 build key:index map for newChildren',
+          desc: 'c2剩余片段key/index记录',
+        })
+      // Debug: end
 
       // 5.1 build key:index map for newChildren
       const keyToNewIndexMap: Map<string | number | symbol, number> = new Map()
@@ -1924,6 +2132,20 @@ function baseCreateRenderer(
         }
       }
 
+      // Debug: start
+      logger.dispatch({
+        container,
+        type: 'keyToNewIndexMap',
+        title:
+          '记录 keyToNewIndexMap c2 -> ' +
+          [...keyToNewIndexMap]
+            .map(o => `${o[0].toString()}:${o[1].toString()}`)
+            .join(', '),
+        desc: '',
+        keyToNewIndexMap,
+      })
+      // Debug: end
+
       // 5.2 loop through old children left to be patched and try to patch
       // matching nodes & remove nodes that are no longer present
       let j
@@ -1940,11 +2162,37 @@ function baseCreateRenderer(
       const newIndexToOldIndexMap = new Array(toBePatched)
       for (i = 0; i < toBePatched; i++) newIndexToOldIndexMap[i] = 0
 
+      // Debug: start
+      s1 <= e1 &&
+        logger.dispatch({
+          container,
+          type: 'step',
+          title:
+            '5.2 loop through old children left to be patched and try to patch matching nodes & remove nodes that are no longer present',
+          desc: 'c1【未知的序列】从左逐个判断是否存在于c2【未知的序列】，不存在就移除；存在就记录新老位置关系；',
+        })
+      // Debug: end
+
       for (i = s1; i <= e1; i++) {
         const prevChild = c1[i]
         if (patched >= toBePatched) {
           // all new children have been patched so this can only be a removal
           unmount(prevChild, parentComponent, parentSuspense, true)
+          // Debug: start
+          logger.dispatch({
+            container,
+            type: '5.2',
+            title: `${c1[i].key?.toString()}没了`,
+            desc: ``,
+            i,
+            e1,
+            e2,
+            c1,
+            c2,
+            s1,
+            s2,
+          })
+          // Debug: end
           continue
         }
         let newIndex
@@ -1964,6 +2212,21 @@ function baseCreateRenderer(
         }
         if (newIndex === undefined) {
           unmount(prevChild, parentComponent, parentSuspense, true)
+          // Debug: start
+          logger.dispatch({
+            container,
+            type: '5.2',
+            title: `${c1[i].key?.toString()}没了，移除`,
+            desc: ``,
+            i,
+            e1,
+            e2,
+            c1,
+            c2,
+            s1,
+            s2,
+          })
+          // Debug: end
         } else {
           newIndexToOldIndexMap[newIndex - s2] = i + 1
           if (newIndex >= maxNewIndexSoFar) {
@@ -1982,9 +2245,35 @@ function baseCreateRenderer(
             slotScopeIds,
             optimized,
           )
+          // Debug: start
+          logger.dispatch({
+            container,
+            type: '5.2',
+            title: `${c1[i].key?.toString()}还在，继续`,
+            desc: ``,
+            i,
+            e1,
+            e2,
+            c1,
+            c2,
+            s1,
+            s2,
+          })
+          // Debug: end
           patched++
         }
       }
+
+      // Debug: start
+      logger.dispatch({
+        container,
+        type: 'newIndexToOldIndexMap',
+        title: '',
+        desc: '',
+        keyToNewIndexMap,
+        newIndexToOldIndexMap,
+      })
+      // Debug: end
 
       // 5.3 move and mount
       // generate longest stable subsequence only when nodes have moved
@@ -1992,6 +2281,30 @@ function baseCreateRenderer(
         ? getSequence(newIndexToOldIndexMap)
         : EMPTY_ARR
       j = increasingNewIndexSequence.length - 1
+
+      // Debug: start
+      logger.dispatch({
+        container,
+        type: 'increasingNewIndexSequence',
+        title: '',
+        desc: '',
+        keyToNewIndexMap,
+        newIndexToOldIndexMap,
+        increasingNewIndexSequence: increasingNewIndexSequence as number[],
+      })
+      // Debug: end
+
+      // Debug: start
+      toBePatched - 1 >= 0 &&
+        logger.dispatch({
+          container,
+          type: 'step',
+          title:
+            '5.3 move and mount generate longest stable subsequence only when nodes have moved',
+          desc: '移动并挂载【最长增长序列】',
+        })
+      // Debug: end
+
       // looping backwards so that we can use last patched node as anchor
       for (i = toBePatched - 1; i >= 0; i--) {
         const nextIndex = s2 + i
