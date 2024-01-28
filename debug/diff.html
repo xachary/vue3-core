@@ -90,17 +90,31 @@
 
           const listSimple = ref([
             {
-              label: '测试diff步骤3',
+              label: '步骤3',
               data: [
                 [{ id: 'a' }, { id: 'b' }],
                 [{ id: 'c' }, { id: 'a' }, { id: 'b' }],
               ],
             },
             {
-              label: '测试diff步骤4',
+              label: '步骤4',
               data: [
                 [{ id: 'a' }, { id: 'b' }, { id: 'c' }],
                 [{ id: 'a' }, { id: 'b' }],
+              ],
+            },
+            {
+              label: '步骤5（最长增长序列长度为1）',
+              data: [
+                [{ id: 'a' }, { id: 'b' }, { id: 'c' }, { id: 'd' }],
+                [{ id: 'd' }, { id: 'c' }, { id: 'b' }, { id: 'a' }],
+              ],
+            },
+            {
+              label: '步骤5（最长增长序列长度为2）',
+              data: [
+                [{ id: 'a' }, { id: 'b' }, { id: 'c' }, { id: 'd' }],
+                [{ id: 'd' }, { id: 'c' }, { id: 'a' }, { id: 'b' }],
               ],
             },
             {

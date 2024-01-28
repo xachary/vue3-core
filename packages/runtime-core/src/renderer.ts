@@ -1732,6 +1732,71 @@ function baseCreateRenderer(
     }
   }
 
+  const logLine = (str: string, container: RendererElement) => {
+    if (container.classList.contains('list')) {
+      getGlobalThis().console!.log(
+        '%c%s',
+        'text-shadow: 1px 1px #fff,-1px -1px #fff,-1px 1px #fff,1px -1px #fff;color:#000;font-size:1.5em;',
+        str,
+      )
+    }
+  }
+
+  const logContainer = (container: RendererElement) => {
+    if (container.classList.contains('list')) {
+      getGlobalThis().console!.log(
+        'dom-a ' + [...container.children].map(o => o.innerText).join(''),
+      )
+    }
+  }
+
+  const logIncrease = (container: RendererElement, nextIndex: number) => {
+    if (container.classList.contains('list')) {
+      getGlobalThis().console!.log(new Array(30).fill('>').join(''))
+      getGlobalThis().console!.log(
+        '%c%s',
+        'color:#fdf3aa',
+        `nextIndex: ${nextIndex}`,
+      )
+      logContainer(container)
+      getGlobalThis().console!.log(new Array(30).fill('<').join(''))
+      getGlobalThis().console!.log('')
+    }
+  }
+
+  const logNewToOld = (
+    container: RendererElement,
+    c1: VNode[],
+    c2: VNodeArrayChildren,
+    c1L: number[],
+    c2L: number[],
+  ) => {
+    if (container.classList.contains('list')) {
+      getGlobalThis().console!.log(new Array(30).fill('>').join(''))
+      const L1 = c1.map(o => o.props!.key)
+      const L2 = c2.map(o => (o! as VNode).props!.key)
+      const empty = '      '
+      const L1P1 = new Array(empty.length + Math.max(L1.length)).fill(' ')
+      for (let idx of c1L) {
+        idx > -1 && (L1P1[empty.length + idx] = idx)
+      }
+      const L2P1 = new Array(empty.length + Math.max(L2.length)).fill(' ')
+      for (let idx of c2L) {
+        idx > -1 && (L2P1[empty.length + idx] = idx)
+      }
+      getGlobalThis().console!.log('%c%s', 'color:#7cacf8', L1P1.join(''))
+      getGlobalThis().console!.log('%c%s', 'color:pink', 'c1 -> ' + L1.join(''))
+      getGlobalThis().console!.log(
+        '%c%s',
+        'color:green',
+        'c2 -> ' + L2.join(''),
+      )
+      getGlobalThis().console!.log('%c%s', 'color:#7cacf8', L2P1.join(''))
+      getGlobalThis().console!.log(new Array(30).fill('<').join(''))
+      getGlobalThis().console!.log('')
+    }
+  }
+
   const log = (
     c1: VNode[],
     c2: VNodeArrayChildren,
@@ -1741,35 +1806,46 @@ function baseCreateRenderer(
     e2: number,
   ) => {
     if (container.classList.contains('list')) {
+      getGlobalThis().console!.log(new Array(30).fill('>').join(''))
       const L1 = c1.map(o => o.props!.key)
-      const L1P = new Array(L1.length).fill(' ')
-      L1P[i] = '↓'
-      L1P[e1] = '↓'
       const L2 = c2.map(o => (o! as VNode).props!.key)
-      const L2P = new Array(L2.length).fill(' ')
-      L2P[i] = '↑'
-      L2P[e2] = '↑'
+      const empty = '      '
 
-      getGlobalThis().console!.log('      ' + L1P.join(''))
+      const L1P1 = new Array(
+        empty.length + Math.max(L1.length, L2.length),
+      ).fill(' ')
+      const L1P2 = new Array(
+        empty.length + Math.max(L1.length, L2.length),
+      ).fill(' ')
+      L1P1[empty.length + i + (i < 0 ? -1 : 0)] = i
+      L1P2[empty.length + e1 + (e1 < 0 ? -1 : 0)] = e1
+
+      const L2P1 = new Array(
+        empty.length + Math.max(L1.length, L2.length),
+      ).fill(' ')
+      const L2P2 = new Array(
+        empty.length + Math.max(L1.length, L2.length),
+      ).fill(' ')
+      L2P1[empty.length + i + (i < 0 ? -1 : 0)] = i
+      L2P2[empty.length + e2 + (2 < 0 ? -1 : 0)] = e2
+
+      getGlobalThis().console!.log('%c%s', 'color:#fdf3aa', L1P2.join(''))
+      getGlobalThis().console!.log('%c%s', 'color:#7cacf8', L1P1.join(''))
+
       getGlobalThis().console!.log('%c%s', 'color:pink', 'c1 -> ' + L1.join(''))
       getGlobalThis().console!.log(
         '%c%s',
         'color:green',
         'c2 -> ' + L2.join(''),
       )
-      getGlobalThis().console!.log('      ' + L2P.join(''))
-      getGlobalThis().console!.log(
-        'dom-> ' + [...container.children].map(o => o.innerText).join(''),
-      )
-      getGlobalThis().console!.log(
-        new Array(
-          Math.max(L1.length, L2.length, container.children.length) +
-            'cn -> '.length,
-        )
-          .fill('-')
-          .join(''),
-      )
-      debugger
+
+      getGlobalThis().console!.log('%c%s', 'color:#7cacf8', L2P1.join(''))
+      getGlobalThis().console!.log('%c%s', 'color:#5cd5fb', L2P2.join(''))
+
+      logContainer(container)
+      getGlobalThis().console!.log(new Array(30).fill('<').join(''))
+      getGlobalThis().console!.log('')
+      // debugger
     }
   }
 
@@ -1850,7 +1926,7 @@ function baseCreateRenderer(
     let e2 = l2 - 1 // next ending index
 
     // Debug: start
-    logTitle('1. 头头对比（发现不一样就跳出）', container)
+    i <= e1 && i <= e2 && logTitle('1. 头头对比（发现不一样就跳出）', container)
     // Debug: end
 
     // 1. sync from start
@@ -1877,9 +1953,21 @@ function baseCreateRenderer(
         // Debug: start
         log(c1, c2, container, i, e1, e2)
         // Debug: end
+        // Debug: start
+        logLine(
+          `${n1.key?.toString()} === ${n2.key?.toString()} 继续`,
+          container,
+        )
+        // Debug: end
       } else {
         // Debug: start
         log(c1, c2, container, i, e1, e2)
+        // Debug: end
+        // Debug: start
+        logLine(
+          `${n1.key?.toString()} !== ${n2.key?.toString()} 中断`,
+          container,
+        )
         // Debug: end
         break
       }
@@ -1887,7 +1975,7 @@ function baseCreateRenderer(
     }
 
     // Debug: start
-    logTitle('2. 尾尾对比（发现不一样就跳出）', container)
+    i <= e1 && i <= e2 && logTitle('2. 尾尾对比（发现不一样就跳出）', container)
     // Debug: end
 
     // 2. sync from end
@@ -1914,9 +2002,21 @@ function baseCreateRenderer(
         // Debug: start
         log(c1, c2, container, i, e1, e2)
         // Debug: end
+        // Debug: start
+        logLine(
+          `${n1.key?.toString()} === ${n2.key?.toString()} 继续`,
+          container,
+        )
+        // Debug: end
       } else {
         // Debug: start
         log(c1, c2, container, i, e1, e2)
+        // Debug: end
+        // Debug: start
+        logLine(
+          `${n1.key?.toString()} !== ${n2.key?.toString()} 中断`,
+          container,
+        )
         // Debug: end
         break
       }
@@ -1941,6 +2041,13 @@ function baseCreateRenderer(
         // Debug: end
         const nextPos = e2 + 1
         const anchor = nextPos < l2 ? (c2[nextPos] as VNode).el : parentAnchor
+        // Debug: start
+        i <= e2 &&
+          logLine(
+            `c2: ${c2.map(o => (o! as VNode).props!.key).join('')} 包含 c1: ${c1.map(o => o.props!.key).join('')}`,
+            container,
+          )
+        // Debug: end
         while (i <= e2) {
           patch(
             null,
@@ -1972,10 +2079,18 @@ function baseCreateRenderer(
     // i = 0, e1 = 0, e2 = -1
     else if (i > e2) {
       // Debug: start
-      logTitle(
-        '4. 如果新节点已经全部被patch，老节点没有被patch完，那么卸载所有老节点',
-        container,
-      )
+      i <= e1 &&
+        logTitle(
+          '4. 如果新节点已经全部被patch，老节点没有被patch完，那么卸载所有老节点',
+          container,
+        )
+      // Debug: end
+      // Debug: start
+      i <= e1 &&
+        logLine(
+          `c1: ${c1.map(o => o.props!.key).join('')} 包含 c2: ${c2.map(o => (o! as VNode).props!.key).join('')}`,
+          container,
+        )
       // Debug: end
       while (i <= e1) {
         unmount(c1[i], parentComponent, parentSuspense, true)
@@ -1992,13 +2107,13 @@ function baseCreateRenderer(
     // i = 2, e1 = 4, e2 = 5
     else {
       // Debug: start
-      logTitle('5. 不确定的元素', container)
+      logTitle('5. 未知的序列', container)
       // Debug: end
       const s1 = i // prev starting index
       const s2 = i // next starting index
 
       // Debug: start
-      logTitle('5.1 c2剩余片段key/index记录', container)
+      s2 <= e2 && logTitle('5.1 c2剩余片段key/index记录', container)
       // Debug: end
 
       // 5.1 build key:index map for newChildren
@@ -2020,19 +2135,11 @@ function baseCreateRenderer(
       }
 
       // Debug: start
-      logTitle(
-        'keyToNewIndexMap: ' +
+      getGlobalThis().console!.log(
+        '记录 keyToNewIndexMap c2 -> ' +
           [...keyToNewIndexMap]
             .map(o => `${o[0].toString()}:${o[1].toString()}`)
             .join(', '),
-        container,
-      )
-      // Debug: end
-
-      // Debug: start
-      logTitle(
-        '5.2 c1剩余片段，从左逐个判断是否存在于c2，不存在就移除；存在就记录新老位置关系；',
-        container,
       )
       // Debug: end
 
@@ -2054,12 +2161,28 @@ function baseCreateRenderer(
         newIndexToOldIndexMap[i] = 0
       }
 
+      // Debug: start
+      getGlobalThis().console!.log(
+        '准备 newIndexToOldIndexMap: [' +
+          newIndexToOldIndexMap.join(', ') +
+          ']',
+      )
+      // Debug: end
+
+      // Debug: start
+      s1 <= e1 &&
+        logTitle(
+          '5.2 c1剩余片段：xxx；从左逐个判断是否存在于c2，不存在就移除；存在就记录新老位置关系；',
+          container,
+        )
+      // Debug: end
       for (i = s1; i <= e1; i++) {
         const prevChild = c1[i]
         if (patched >= toBePatched) {
           // all new children have been patched so this can only be a removal
           unmount(prevChild, parentComponent, parentSuspense, true)
           // Debug: start
+          logLine(`${c1[i].key?.toString()}没了`, container)
           log(c1, c2, container, i, e1, e2)
           // Debug: end
           continue
@@ -2082,10 +2205,11 @@ function baseCreateRenderer(
         if (newIndex === undefined) {
           unmount(prevChild, parentComponent, parentSuspense, true)
           // Debug: start
+          logLine(`${c1[i].key?.toString()}没了`, container)
           log(c1, c2, container, i, e1, e2)
           // Debug: end
         } else {
-          newIndexToOldIndexMap[newIndex - s2] = i + 1
+          newIndexToOldIndexMap[newIndex - s2] = i + 1 // 算法所需，序号从1开始，所以在原序号基础上+1
           if (newIndex >= maxNewIndexSoFar) {
             maxNewIndexSoFar = newIndex
           } else {
@@ -2103,6 +2227,7 @@ function baseCreateRenderer(
             optimized,
           )
           // Debug: start
+          logLine(`${c1[i].key?.toString()}还在`, container)
           log(c1, c2, container, i, e1, e2)
           // Debug: end
           patched++
@@ -2110,10 +2235,39 @@ function baseCreateRenderer(
       }
 
       // Debug: start
-      logTitle(
-        '5.3 move and mount generate longest stable subsequence only when nodes have moved',
-        container,
+      logTitle('【最长增长序列】', container)
+      getGlobalThis().console!.log(
+        'keyToNewIndexMap c2 -> ' +
+          [...keyToNewIndexMap]
+            .map(o => `${o[0].toString()}:${o[1].toString()}`)
+            .join(', '),
       )
+      logNewToOld(
+        container,
+        c1,
+        c2,
+        [],
+        [...keyToNewIndexMap].map(o => o[1]),
+      )
+      getGlobalThis().console!.log(
+        '由 newIndexToOldIndexMap: c2 -> [' +
+          newIndexToOldIndexMap
+            .map(
+              (o: number) =>
+                `${(c1[o - 1] as VNode)?.key?.toString()} index ${o - 1}`,
+            )
+            .join(', ') +
+          '] in c1',
+        // newIndexToOldIndexMap.join(', ') +
+        // ']',
+      )
+      // logNewToOld(
+      //   container,
+      //   c1,
+      //   c2,
+      //   newIndexToOldIndexMap.map(o => o - 1),
+      //   [s2, e2],
+      // )
       // Debug: end
 
       // 5.3 move and mount
@@ -2122,19 +2276,57 @@ function baseCreateRenderer(
         ? getSequence(newIndexToOldIndexMap)
         : EMPTY_ARR
       j = increasingNewIndexSequence.length - 1
+      // Debug: start
+      getGlobalThis().console!.log(
+        '由算法得出【最长增长序列】increasingNewIndexSequence: c1 -> [' +
+          increasingNewIndexSequence
+            .map(
+              (o: number) => `${(c1[o] as VNode)?.key?.toString()} index ${o}`,
+            )
+            .join(', ') +
+          `] in c2 from (${newIndexToOldIndexMap.map(o => o - 1)}) -> (${newIndexToOldIndexMap
+            .map(o => o - 1)
+            .map(
+              (o: number) => `${(c1[o] as VNode)?.key?.toString() || '无'}`,
+            )}) -> ${increasingNewIndexSequence.map((o: number) => `${(c1[newIndexToOldIndexMap[o] - 1] as VNode)?.key?.toString() || '无'}`)}`,
+      )
+      logNewToOld(container, c1, c2, [], increasingNewIndexSequence as number[])
+      // Debug: end
       // looping backwards so that we can use last patched node as anchor
-      if (!(toBePatched - 1 >= 0)) {
-        // Debug: start
-        log(c1, c2, container, i, e1, e2)
-        // Debug: end
-      }
+
+      // Debug: start
+      toBePatched - 1 >= 0 &&
+        logTitle(
+          '5.3 move and mount generate longest stable subsequence only when nodes have moved',
+          container,
+        )
+      // Debug: end
+
       for (i = toBePatched - 1; i >= 0; i--) {
         const nextIndex = s2 + i
         const nextChild = c2[nextIndex] as VNode
         const anchor =
           nextIndex + 1 < l2 ? (c2[nextIndex + 1] as VNode).el : parentAnchor
 
+        // Debug: start
+        logLine(
+          `遍历c2当前元素是${(nextChild as VNode).key?.toString()}(c2[${s2 + i}])`,
+          container,
+        )
+        logNewToOld(container, c1, c2, [], [s2 + i])
+        if (s2 + i < e2) {
+          logLine(
+            `当前锚点为${anchor?.innerText}，即${(nextChild as VNode).key?.toString()}(c2:nextChild)的后一个`,
+            container,
+          )
+        } else {
+          logLine(`当前锚点为c2的尾部`, container)
+        }
+        logLine('', container)
+        // Debug: end
+
         if (newIndexToOldIndexMap[i] === 0) {
+          // 算法所需，序号从1开始，所以在原序号基础上+1，0实际上是-1，即不存在
           // mount new
           patch(
             null,
@@ -2148,18 +2340,42 @@ function baseCreateRenderer(
             optimized,
           )
           // Debug: start
-          log(c1, c2, container, i, e1, e2)
+          logLine(
+            `${(c2[nextIndex] as VNode).key?.toString()}新增插入到${anchor?.innerText}前`,
+            container,
+          )
+          logIncrease(container, nextIndex)
           // Debug: end
         } else if (moved) {
           // move if:
           // There is no stable subsequence (e.g. a reverse)
           // OR current node is not among the stable sequence
           if (j < 0 || i !== increasingNewIndexSequence[j]) {
+            // Debug: start
+            logLine(
+              `${(nextChild as VNode).key?.toString()}移动到${anchor?.innerText}前`,
+              container,
+            )
+            // Debug: end
             move(nextChild, container, anchor, MoveType.REORDER)
             // Debug: start
-            log(c1, c2, container, i, e1, e2)
+            logIncrease(container, nextIndex)
             // Debug: end
           } else {
+            // Debug: start
+            if (i === increasingNewIndexSequence[j]) {
+              logLine(
+                `${(nextChild as VNode).key?.toString()}属于【最长增长序列】，无需移动`,
+                container,
+              )
+            } else {
+              logLine(
+                `increasingNewIndexSequence 已经从尾到头遍历结束`,
+                container,
+              )
+            }
+            logLine('', container)
+            // Debug: end
             j--
           }
         }
