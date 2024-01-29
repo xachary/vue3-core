@@ -167,7 +167,7 @@
           </div>
         </li>
       </ul>
-      <div class="content">
+      <div class="content" ref="content">
         <header class="inputs">
           <div>
             <label>from:</label>
@@ -652,6 +652,7 @@
           const logs = ref([])
           const logsSnap = ref([])
           let active = false
+          const content = ref(null)
 
           const txtPatch = txt => {
             return txt.replace(/[^a-z]/g, '').replace(/([a-z])(.*)\1/, '$1$2')
@@ -672,6 +673,7 @@
                   setTimeout(() => {
                     active = false
                     logsSnap.value = [...logs.value]
+                    content.value && content.value.scroll(0, 0)
                   }, 100)
                 })
               })
@@ -717,6 +719,7 @@
             done,
             logs,
             logsSnap,
+            content,
           }
         },
       }).mount('#app')
