@@ -2119,7 +2119,7 @@ function baseCreateRenderer(
           container,
           type: 'step',
           title: '5.1 build key:index map for newChildren',
-          desc: 'c2剩余片段key/index记录',
+          desc: '“to”【未知的序列】key的序号关系',
         })
       // Debug: end
 
@@ -2178,7 +2178,7 @@ function baseCreateRenderer(
           type: 'step',
           title:
             '5.2 loop through old children left to be patched and try to patch matching nodes & remove nodes that are no longer present',
-          desc: 'c1【未知的序列】从左逐个判断是否存在于c2【未知的序列】，不存在就移除；存在就记录新老位置关系；',
+          desc: '“from”【未知的序列】从左逐个判断是否存在于“to”【未知的序列】，不存在就移除；存在就记录双方都序号关系；',
         })
       // Debug: end
 
@@ -2191,7 +2191,7 @@ function baseCreateRenderer(
           logger.dispatch({
             container,
             type: '5.2',
-            title: `${c1[i].key?.toString()}没了`,
+            title: `“${c1[i].key?.toString()}”不存在，移除`,
             desc: ``,
             i,
             e1,
@@ -2225,7 +2225,7 @@ function baseCreateRenderer(
           logger.dispatch({
             container,
             type: '5.2',
-            title: `${c1[i].key?.toString()}没了，移除`,
+            title: `“${c1[i].key?.toString()}”不存在，移除`,
             desc: ``,
             i,
             e1,
@@ -2258,7 +2258,7 @@ function baseCreateRenderer(
           logger.dispatch({
             container,
             type: '5.2',
-            title: `${c1[i].key?.toString()}还在，继续`,
+            title: `“${c1[i].key?.toString()}”存在，继续`,
             desc: ``,
             i,
             e1,

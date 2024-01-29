@@ -10,56 +10,93 @@
     <style>
       body {
         margin: 0;
+        color: #111;
+        font-size: 14px;
       }
       ul {
         list-style: none;
         margin: 0;
         padding: 0;
       }
+      label {
+        width: 80px;
+        text-align: right;
+        margin-right: 6px;
+        display: inline-block;
+      }
+      ::-webkit-scrollbar {
+        width: 7px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background-color: #eee;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: #ddd;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: #ccc;
+      }
       .board {
         display: flex;
         height: 100vh;
       }
-      .board > ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+      ul.tests {
+        border-right: 1px solid #ccc;
+        overflow: auto;
       }
-      .board > ul > li > div > * {
-        display: inline-block;
+      ul.tests > li {
+        padding: 6px;
+        cursor: pointer;
       }
-      .board > ul > li > div > label {
-        width: 50px;
-        text-align: right;
-        margin-right: 6px;
+      ul.tests > li:hover {
+        background-color: #eee;
       }
-      .board > div {
+      ul.tests > li.selected {
+        background-color: #efefef;
+      }
+      ul.tests > li + li {
+        border-top: 1px solid #ccc;
+      }
+      ul.tests > li > header {
+        font-weight: bold;
+      }
+      .inputs {
+        position: sticky;
+        top: 0;
+        border-bottom: 1px solid #ccc;
+        padding: 9px 6px 6px 6px;
+        background-color: #fff;
+      }
+      .inputs > div {
+        display: flex;
+        margin: 4px 0;
+      }
+      .inputs > div > input {
+        flex-grow: 1;
+      }
+      .content {
         flex-grow: 1;
         width: 0;
         height: 100%;
         overflow: auto;
       }
-      .board > div > header > div {
+      .block {
+        padding: 6px;
+      }
+      .block:not(:last-child) {
+        border-bottom: 1px solid #ccc;
+      }
+      .block > div {
         display: flex;
         margin: 4px 0;
       }
-      .board > div > header > div > label,
-      .board > div > section > div > label {
-        width: 50px;
-        text-align: right;
-        margin-right: 6px;
-      }
-      .board > div > header > div > input {
-        flex-grow: 1;
-      }
-      .board > div > section > div {
-        display: flex;
-        margin: 4px 0;
-      }
-      .board > div > section > div > ul {
+      .block > div > ul {
         display: flex;
       }
-      .board > div > section > div > ul > li {
+      .block > div > ul > li {
         width: 1.6em;
         height: 1.6em;
         line-height: 1.6em;
@@ -67,27 +104,52 @@
         margin-right: 4px;
         background-color: #eee;
       }
+      .view {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 7px;
+      }
+      .logs > header {
+        padding: 6px;
+        position: sticky;
+        top: 72px;
+        background-color: #fff;
+        border-bottom: 1px solid #ccc;
+      }
+      .block > div.index-bar > ul > li {
+        background-color: #ddd;
+      }
+      .block.step {
+        position: sticky;
+        top: 105px;
+        background-color: #fff;
+        height: 40px;
+        overflow: auto;
+        background-color: #eee;
+      }
     </style>
   </head>
   <body>
     <div id="app" class="board">
-      <ul>
-        <li v-for="(item,i) in testUnits" :key="i" @click="testSelect(item)">
+      <ul class="tests">
+        <li
+          v-for="(item,i) in testUnits"
+          :key="i"
+          @click="testSelect($event,item)"
+          :class="{selected:item.from===from&&item.to===to}"
+        >
           <header>{{item.desc}}</header>
           <div>
             <label>from:</label>
-
             <span>{{item.from}}</span>
           </div>
           <div>
             <label>to:</label>
-
             <span>{{item.to}}</span>
           </div>
         </li>
       </ul>
-      <div>
-        <header>
+      <div class="content">
+        <header class="inputs">
           <div>
             <label>from:</label>
             <input type="text" v-model="from" />
@@ -97,44 +159,19 @@
             <input type="text" v-model="to" />
           </div>
         </header>
-        <hr />
-        <section>
-          <div>
-            <label>index:</label>
-            <ul>
-              <li>-1</li>
-              <li
-                v-for="n in Math.max(from.split('').length,to.split('').length)"
-                :key="n"
-              >
-                {{n-1}}
-              </li>
-            </ul>
-          </div>
-          <div>
-            <label>from:</label>
-            <ul>
-              <li></li>
-              <li v-for="item in from.split('')" :key="item">{{item}}</li>
-              <li
-                v-for="n in (to.split('').length - from.split('').length)"
-                :key="n"
-                v-if="to.split('').length>from.split('').length"
-              ></li>
-            </ul>
-          </div>
-          <div>
-            <label>to:</label>
-            <ul>
-              <li></li>
-              <li v-for="item in to.split('')" :key="item">{{item}}</li>
-              <li
-                v-for="n in (from.split('').length - to.split('').length)"
-                :key="n"
-                v-if="from.split('').length>to.split('').length"
-              ></li>
-            </ul>
-          </div>
+        <section class="block view">
+          <header>图示</header>
+          <index-bar :length="fromToMaxLength"></index-bar>
+          <list-bar
+            label="from"
+            :list="fromList"
+            :length="fromToMaxLength"
+          ></list-bar>
+          <list-bar
+            label="to"
+            :list="toList"
+            :length="fromToMaxLength"
+          ></list-bar>
           <div>
             <label>done:</label>
             <ul class="done">
@@ -143,590 +180,385 @@
             </ul>
           </div>
         </section>
-        <hr />
-        <section v-for="(item,i) in logsSnap" :key="i">
-          <template v-if="item.type==='step'||item.type==='text'">
-            <header>{{item.title}}</header>
-            <p>{{item.desc}}</p>
-          </template>
-          <template v-else-if="item.type==='newIndexToOldIndexMap'">
-            <header>newIndexToOldIndexMap</header>
-            <div>
-              <label>index:</label>
-              <ul>
-                <li>-1</li>
-                <li
-                  v-for="n in Math.max(from.split('').length,to.split('').length)"
-                  :key="n"
-                  :style="{
-                    color:item.newIndexToOldIndexMap.includes(n)?'green':''
-                  }"
-                >
-                  {{n-1}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>from:</label>
-              <ul>
-                <li></li>
-                <li
-                  v-for="t in from.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.idx"
-                  :style="{
-                      color:t.idx>=item.i&&t.idx<=item.e1?item.newIndexToOldIndexMap.includes(t.idx+1)?'green':'red':''
-                    }"
-                >
-                  {{t.key}}
-                </li>
-                <li
-                  v-for="n in (to.split('').length - from.split('').length)"
-                  :key="n"
-                  v-if="to.split('').length>from.split('').length"
-                ></li>
-              </ul>
-            </div>
-            <div>
-              <label>to:</label>
-              <ul>
-                <li></li>
-                <li
-                  v-for="t in to.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.idx"
-                  :style="{
-                      color:t.idx>=item.i&&t.idx<=item.e2?'red':''
-                    }"
-                >
-                  {{t.key}}
-                </li>
-                <li
-                  v-for="n in (from.split('').length - to.split('').length)"
-                  :key="n"
-                  v-if="from.split('').length>to.split('').length"
-                ></li>
-              </ul>
-            </div>
-            <div>
-              <label>map:</label>
-              <ul>
-                <li></li>
-                <li
-                  v-for="t in to.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.idx"
-                  :style="{
-                      color:t.idx>=item.i&&t.idx<=item.e2?'green':''
-                    }"
-                >
-                  {{t.idx>=item.i&&t.idx<=item.e2?item.newIndexToOldIndexMap.map(o=>o-1)[t.idx-item.i
-                  ]:''}}
-                </li>
-                <li
-                  v-for="n in (from.split('').length - to.split('').length)"
-                  :key="n"
-                  v-if="from.split('').length>to.split('').length"
-                ></li>
-              </ul>
-            </div>
-            <div>
-              <label>dom</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{n-1>-1?item.container[n-1]:''}}
-                </li>
-              </ul>
-            </div>
-          </template>
-          <template v-else-if="item.type==='increasingNewIndexSequence'">
-            <header>increasingNewIndexSequence</header>
-            <div>
-              <label>map:</label>
-              <ul>
-                <li
-                  v-for="t in item.newIndexToOldIndexMap.map(o=>o-1).map((key,idx)=>({key,idx}))"
-                  :key="t.idx"
-                  :style="{
-                      color:true?'green':'green'
-                    }"
-                >
-                  {{t.key}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>seq:</label>
-              <ul>
-                <li
-                  v-for="t in item.newIndexToOldIndexMap.map(o=>o-1).map((key,idx)=>({key,idx}))"
-                  :key="t.idx"
-                  :style="{
-                    color:item.increasingNewIndexSequence.includes(t.idx)?'red':'green'
-                  }"
-                >
-                  {{item.increasingNewIndexSequence.includes(t.idx)?t.idx:''}}
-                </li>
-              </ul>
-            </div>
-          </template>
-          <template v-else-if="item.type==='anchor'">
-            <header>
-              从后往前遍历 to
-              的【未知的序列】{{item.increasingNewIndexSequence.includes(item.nextIndex
-              - item.i)&&item.nextIndex - item.i>0?'【最长增长序列】中':''}}
-            </header>
-            <div>
-              <label>index:</label>
-              <ul>
-                <li>-1</li>
-                <li
-                  v-for="n in Math.max(from.split('').length,to.split('').length)"
-                  :key="n"
-                >
-                  {{n-1}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>to:</label>
-              <ul>
-                <li></li>
-                <li
-                  v-for="t in to.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.idx"
-                  :style="{
-                        color:t.idx===item.nextIndex+1?'green':t.idx>=item.i&&t.idx<=item.e2?'red':''
+        <div class="logs">
+          <header>过程</header>
+          <section
+            class="block"
+            :class="{step:item.type==='step'}"
+            v-for="(item,i) in logsSnap"
+            :key="i"
+          >
+            <template v-if="item.type==='step'">
+              <header>{{item.title}}</header>
+              <footer>{{item.desc}}</footer>
+            </template>
+            <template v-else-if="item.type==='index'">
+              <index-bar :length="fromToMaxLength"></index-bar>
+              <mark-bar
+                label="e1"
+                :mark="(n)=>item.e1===n-2"
+                :length="fromToMaxLength"
+                marker="↓"
+              ></mark-bar>
+              <mark-bar
+                label="i"
+                :mark="(n)=>item.i===n-2"
+                :length="fromToMaxLength"
+                marker="↓"
+              ></mark-bar>
+              <list-bar
+                label="from"
+                :list="fromList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>idx===item.i&&idx===item.e1&&!toList.includes(key)"
+                highlight-color="red"
+              ></list-bar>
+              <list-bar
+                label="to"
+                :list="toList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>idx===item.i&&idx===item.e2&&!fromList.includes(key)"
+                highlight-color="green"
+              ></list-bar>
+              <mark-bar
+                label="i"
+                :mark="(n)=>item.i===n-2"
+                :length="fromToMaxLength"
+                marker="↑"
+              ></mark-bar>
+              <mark-bar
+                label="e2"
+                :mark="(n)=>item.e2===n-2"
+                :length="fromToMaxLength"
+                marker="↑"
+              ></mark-bar>
+              <dom-bar
+                :length="fromToMaxLength"
+                :container="item.container"
+                :highlight="(n)=>!fromList.includes(item.container[n-1])"
+                highlight-color="green"
+              ></dom-bar>
+            </template>
+            <template v-else-if="item.type==='unknownSequence'">
+              <header>【unknownSequence】</header>
+              <index-bar :length="fromToMaxLength"></index-bar>
+              <list-bar
+                label="from"
+                :list="fromList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>idx>=item.i&&idx<=item.e1"
+                highlight-color="red"
+              ></list-bar>
+              <list-bar
+                label="to"
+                :list="toList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>idx>=item.i&&idx<=item.e2"
+                highlight-color="red"
+              ></list-bar>
+            </template>
+            <template v-else-if="item.type==='keyToNewIndexMap'">
+              <header>【keyToNewIndexMap】</header>
+              <index-bar
+                :length="fromToMaxLength"
+                :highlight="(n)=>item.keyToNewIndexMap.has(toList[n-1])"
+                highlight-color="red"
+              ></index-bar>
+              <list-bar
+                label="to"
+                :list="toList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>item.keyToNewIndexMap.has(toList[idx])"
+                highlight-color="red"
+              ></list-bar>
+            </template>
+            <template v-else-if="item.type==='5.2'">
+              <index-bar
+                :length="fromToMaxLength"
+                :highlight="(n)=>n-1>=item.s1&&n-1<=item.e1"
+                highlight-color="red"
+              ></index-bar>
+              <mark-bar
+                label="e1"
+                :mark="(n)=>item.e1===n-2"
+                :length="fromToMaxLength"
+                marker="↓"
+              ></mark-bar>
+              <mark-bar
+                label="i"
+                :mark="(n)=>item.i===n-2"
+                :length="fromToMaxLength"
+                marker="↓"
+              ></mark-bar>
+              <list-bar
+                label="from"
+                :list="fromList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>idx===item.i&&item.title.includes('没了')"
+                highlight-color="red"
+                :highlight2="(key,idx)=>idx===item.i"
+                highlight2-color="green"
+              ></list-bar>
+              <list-bar
+                label="to"
+                :list="toList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>key===fromList[item.i]"
+                highlight-color="green"
+              ></list-bar>
+              <header>{{item.title}}</header>
+              <dom-bar
+                :length="fromToMaxLength"
+                :container="item.container"
+              ></dom-bar>
+            </template>
+            <template v-else-if="item.type==='newIndexToOldIndexMap'">
+              <header>【newIndexToOldIndexMap】“to”【未知的序列】在“from”【未知的序列】序号关系</header>
+              <index-bar
+                :length="fromToMaxLength"
+                :highlight="(n)=>item.newIndexToOldIndexMap.includes(n)"
+                highlight-color="green"
+              ></index-bar>
+              <list-bar
+                label="from"
+                :list="fromList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>idx>=item.i&&idx<=item.e1&&item.newIndexToOldIndexMap.includes(idx+1)"
+                highlight-color="green"
+                :highlight2="(key,idx)=>idx>=item.i&&idx<=item.e1"
+                highlight2-color="red"
+              ></list-bar>
+              <list-bar
+                label="to"
+                :list="toList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>idx>=item.i&&idx<=item.e2"
+                highlight-color="red"
+              ></list-bar>
+              <div>
+                <label>map:</label>
+                <ul>
+                  <li></li>
+                  <li
+                    v-for="(key,idx) in toList"
+                    :key="idx"
+                    :style="{
+                        color:idx>=item.i&&idx<=item.e2?'green':''
                       }"
-                >
-                  {{t.key}}
-                </li>
-                <li
-                  v-for="n in (from.split('').length - to.split('').length)"
-                  :key="n"
-                  v-if="from.split('').length>to.split('').length"
-                ></li>
-              </ul>
-            </div>
-            <div>
-              <label>nI</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{item.nextIndex+1===n-2?'←':item.nextIndex===n-2?'↑':''}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>dom</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                  :style="{
-                    color:to.split('')[item.nextIndex+1]===item.container[n-1]?'green':to.split('')[item.nextIndex]===item.container[n-1]?'blue':''
-                  }"
-                >
-                  {{n-1>-1?item.container[n-1]:''}}
-                </li>
-              </ul>
-            </div>
-          </template>
-          <template v-else-if="item.type==='anchorMount'">
-            <header>插入新增元素</header>
-            <div>
-              <label>index:</label>
-              <ul>
-                <li>-1</li>
-                <li
-                  v-for="n in Math.max(from.split('').length,to.split('').length)"
-                  :key="n"
-                >
-                  {{n-1}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>dom</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                  :style="{
-                    color:to.split('')[item.nextIndex+1]===item.container[n-1]?'green':to.split('')[item.nextIndex]===item.container[n-1]?'blue':''
-                  }"
-                >
-                  {{n-1>-1?item.container[n-1]:''}}
-                </li>
-              </ul>
-            </div>
-          </template>
-          <template v-else-if="item.type==='anchorMove'">
-            <header>移动元素</header>
-            <div>
-              <label>index:</label>
-              <ul>
-                <li>-1</li>
-                <li
-                  v-for="n in Math.max(from.split('').length,to.split('').length)"
-                  :key="n"
-                >
-                  {{n-1}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>dom</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                  :style="{
-                    color:to.split('')[item.nextIndex+1]===item.container[n-1]?'green':to.split('')[item.nextIndex]===item.container[n-1]?'blue':''
-                  }"
-                >
-                  {{n-1>-1?item.container[n-1]:''}}
-                </li>
-              </ul>
-            </div>
-          </template>
-          <template v-else-if="item.type==='5.2'">
-            <div>
-              <label>index:</label>
-              <ul>
-                <li>-1</li>
-                <li
-                  v-for="n in Math.max(from.split('').length,to.split('').length)"
-                  :key="n"
-                  :style="{
-                    color:n-1>=item.s1&&n-1<=item.e1?'red':''
-                  }"
-                >
-                  {{n-1}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>e1</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{item.e1===n-2?'↓':''}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>i</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{item.i===n-2?'↓':''}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>from:</label>
-              <ul>
-                <li></li>
-                <li
-                  v-for="t in from.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.idx"
-                  :style="{
-                    color:t.idx===item.i?item.title.includes('没了')?'red':'green':''
-                  }"
-                >
-                  {{t.key}}
-                </li>
-                <li
-                  v-for="n in (to.split('').length - from.split('').length)"
-                  :key="n"
-                  v-if="to.split('').length>from.split('').length"
-                ></li>
-              </ul>
-            </div>
-            <div>
-              <label>to:</label>
-              <ul>
-                <li></li>
-                <li v-for="t in to.split('')" :key="t">{{t}}</li>
-                <li
-                  v-for="n in (from.split('').length - to.split('').length)"
-                  :key="n"
-                  v-if="from.split('').length>to.split('').length"
-                ></li>
-              </ul>
-            </div>
-            <header>{{item.title}}</header>
-            <div>
-              <label>dom</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{n-1>-1?item.container[n-1]:''}}
-                </li>
-              </ul>
-            </div>
-          </template>
-          <template v-else-if="item.type==='unknownSequence'">
-            <header>unknownSequence</header>
-            <div>
-              <label>index:</label>
-              <ul>
-                <li>-1</li>
-                <li
-                  v-for="n in Math.max(from.split('').length,to.split('').length)"
-                  :key="n"
-                >
-                  {{n-1}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>from:</label>
-              <ul>
-                <li></li>
-                <li
-                  v-for="t in from.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.idx"
-                  :style="{
-                    color:t.idx>=item.i&&t.idx<=item.e1?'red':''
-                  }"
-                >
-                  {{t.key}}
-                </li>
-                <li
-                  v-for="n in (to.split('').length - from.split('').length)"
-                  :key="n"
-                  v-if="to.split('').length>from.split('').length"
-                ></li>
-              </ul>
-            </div>
-            <div>
-              <label>to:</label>
-              <ul>
-                <li></li>
-                <li
-                  v-for="t in to.split('').map((key,idx)=>({key,idx}))"
-                  :key="t.idx"
-                  :style="{
-                    color:t.idx>=item.i&&t.idx<=item.e2?'red':''
-                  }"
-                >
-                  {{t.key}}
-                </li>
-                <li
-                  v-for="n in (from.split('').length - to.split('').length)"
-                  :key="n"
-                  v-if="from.split('').length>to.split('').length"
-                ></li>
-              </ul>
-            </div>
-          </template>
-          <template v-else-if="item.type==='keyToNewIndexMap'">
-            <header>keyToNewIndexMap</header>
-            <div>
-              <label>index:</label>
-              <ul>
-                <li>-1</li>
-                <li
-                  v-for="n in Math.max(from.split('').length,to.split('').length)"
-                  :key="n"
-                  :style="{
-                    color:item.keyToNewIndexMap.has(to.split('')[n-1])?'red':''
-                  }"
-                >
-                  {{n-1}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>to:</label>
-              <ul>
-                <li></li>
-                <li
-                  v-for="n in Math.max(from.split('').length,to.split('').length)"
-                  :key="n"
-                  :style="{
-                    color:item.keyToNewIndexMap.has(to.split('')[n-1])?'red':''
-                  }"
-                >
-                  {{to.split('')[n-1]||''}}
-                </li>
-              </ul>
-            </div>
-          </template>
-          <template v-else-if="item.type==='index'">
-            <div>
-              <label>index:</label>
-              <ul>
-                <li>-1</li>
-                <li
-                  v-for="n in Math.max(from.split('').length,to.split('').length)"
-                  :key="n"
-                >
-                  {{n-1}}
-                </li>
-              </ul>
-            </div>
-            <hr />
-            <div>
-              <label>e1</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{item.e1===n-2?'↓':''}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>i</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{item.i===n-2?'↓':''}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>from:</label>
-              <ul>
-                <li></li>
-                <li v-for="t in from.split('')" :key="t">{{t}}</li>
-                <li
-                  v-for="n in (to.split('').length - from.split('').length)"
-                  :key="n"
-                  v-if="to.split('').length>from.split('').length"
-                ></li>
-              </ul>
-            </div>
-            <div>
-              <label>to:</label>
-              <ul>
-                <li></li>
-                <li v-for="t in to.split('')" :key="t">{{t}}</li>
-                <li
-                  v-for="n in (from.split('').length - to.split('').length)"
-                  :key="n"
-                  v-if="from.split('').length>to.split('').length"
-                ></li>
-              </ul>
-            </div>
-            <div>
-              <label>i</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{item.i===n-2?'↑':''}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>e2</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{item.e2===n-2?'↑':''}}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <label>dom</label>
-              <ul>
-                <li
-                  v-for="n in (Math.max(from.split('').length,to.split('').length)+1)"
-                  :key="n"
-                >
-                  {{n-1>-1?item.container[n-1]:''}}
-                </li>
-              </ul>
-            </div>
-          </template>
-          <hr />
-          <!-- <hr />
-          <div>
-            <label>e1</label>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div>
-          <div>
-            <label>i/s1</label>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div>
-          <div>
-            <label>from:</label>
-            <ul>
-              <li>a</li>
-              <li>b</li>
-              <li>c</li>
-            </ul>
-          </div>
-          <div>
-            <label>to:</label>
-            <ul>
-              <li>a</li>
-              <li>b</li>
-              <li>c</li>
-            </ul>
-          </div>
-          <div>
-            <label>i/s2</label>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div>
-          <div>
-            <label>e2</label>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div> -->
-        </section>
-        <hr />
+                  >
+                    {{idx>=item.i&&idx<=item.e2?item.newIndexToOldIndexMap.map(o=>o-1)[idx-item.i]:''}}
+                  </li>
+                  <li
+                    v-for="n in (fromList.length - toList.length)"
+                    :key="n"
+                    v-if="fromList.length>toList.length"
+                  ></li>
+                </ul>
+              </div>
+              <dom-bar
+                :length="fromToMaxLength"
+                :container="item.container"
+              ></dom-bar>
+            </template>
+            <template v-else-if="item.type==='increasingNewIndexSequence'">
+              <header>【increasingNewIndexSequence】最长增长序列</header>
+              <div>
+                <label>map:</label>
+                <ul>
+                  <li
+                    v-for="(key,idx) in item.newIndexToOldIndexMap.map(o=>o-1)"
+                    :key="idx"
+                    :style="{
+                        color:true?'green':'green'
+                      }"
+                  >
+                    {{key}}
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <label>seq:</label>
+                <ul>
+                  <li
+                    v-for="(key,idx) in item.newIndexToOldIndexMap.map(o=>o-1)"
+                    :key="idx"
+                    :style="{
+                      color:item.increasingNewIndexSequence.includes(idx)?'red':'green'
+                    }"
+                  >
+                    {{item.increasingNewIndexSequence.includes(idx)?idx:''}}
+                  </li>
+                </ul>
+              </div>
+            </template>
+            <template v-else-if="item.type==='anchor'">
+              <header>
+                从后往前遍历 to
+                的【未知的序列】{{item.increasingNewIndexSequence.includes(item.nextIndex
+                - item.i)&&item.nextIndex - item.i>0?'【最长增长序列】中，跳过':''}}
+              </header>
+              <index-bar :length="fromToMaxLength"></index-bar>
+              <list-bar
+                label="to"
+                :list="toList"
+                :length="fromToMaxLength"
+                :highlight="(key,idx)=>idx===item.nextIndex+1"
+                highlight-color="green"
+                :highlight2="(key,idx)=>idx>=item.i&&idx<=item.e2"
+                highlight2-color="red"
+              ></list-bar>
+              <mark-bar
+                label="nextIndex"
+                :length="fromToMaxLength"
+                :mark="(n)=>item.nextIndex+1===n-2"
+                :mark2="(n)=>item.nextIndex===n-2"
+                marker="←"
+                marker2="↑"
+              ></mark-bar>
+              <dom-bar
+                :length="fromToMaxLength"
+                :container="item.container"
+                :highlight="(n)=>toList[item.nextIndex+1]===item.container[n-1]"
+                highlight-color="green"
+                :highlight2="(n)=>toList[item.nextIndex]===item.container[n-1]"
+                highlight2-color="red"
+              ></dom-bar>
+            </template>
+            <template v-else-if="item.type==='anchorMount'">
+              <header>插入新增元素</header>
+              <index-bar :length="fromToMaxLength"></index-bar>
+              <dom-bar
+                :length="fromToMaxLength"
+                :container="item.container"
+                :highlight="(n)=>toList[item.nextIndex+1]===item.container[n-1]"
+                highlight-color="green"
+                :highlight2="(n)=>toList[item.nextIndex]===item.container[n-1]"
+                highlight2-color="red"
+              ></dom-bar>
+            </template>
+            <template v-else-if="item.type==='anchorMove'">
+              <header>移动元素</header>
+              <index-bar :length="fromToMaxLength"></index-bar>
+              <dom-bar
+                :length="fromToMaxLength"
+                :container="item.container"
+                :highlight="(n)=>toList[item.nextIndex+1]===item.container[n-1]"
+                highlight-color="green"
+                :highlight2="(n)=>toList[item.nextIndex]===item.container[n-1]"
+                highlight2-color="red"
+              ></dom-bar>
+            </template>
+          </section>
+        </div>
       </div>
     </div>
     <script>
-      const { createApp, ref, nextTick, watch } = Vue
+      const { createApp, ref, nextTick, watch, computed } = Vue
+
+      const IndexBar = {
+        template: `
+          <div class="index-bar">
+            <label>index:</label>
+            <ul>
+              <li>-1</li>
+              <li v-for="n in length" :key="n" :style="{'color':highlight&&highlight(n)?highlightColor:''}">{{n-1}}</li>
+            </ul>
+          </div>
+        `,
+        props: {
+          length: Number,
+          highlight: Function,
+          highlightColor: String,
+        },
+        setup() {
+          //
+        },
+      }
+
+      const markBar = {
+        template: `
+          <div>
+            <label>{{label}}:</label>
+            <ul>
+              <li v-for="n in (length+1)" :key="n">
+                {{mark&&mark(n)?marker:mark2&&mark2(n)?marker2:''}}
+              </li>
+            </ul>
+          </div>
+        `,
+        props: {
+          length: Number,
+          label: String,
+          mark: Function,
+          mark2: Function,
+          marker: String,
+          marker2: String,
+        },
+        setup() {
+          //
+        },
+      }
+
+      const listBar = {
+        template: `
+          <div>
+            <label>{{label}}:</label>
+            <ul>
+              <li></li>
+              <li v-for="(key,idx) in list" :key="idx" :style="{'color':highlight&&highlight(key,idx)?highlightColor:highlight2&&highlight2(key,idx)?highlight2Color:''}">{{key}}</li>
+              <li
+                v-for="n in (length - list.length)"
+                :key="n"
+                v-if="length>list.length"
+              ></li>
+            </ul>
+          </div>
+        `,
+        props: {
+          length: Number,
+          highlight: Function,
+          highlightColor: String,
+          highlight2: Function,
+          highlight2Color: String,
+          label: String,
+          list: Array,
+        },
+        setup() {
+          //
+        },
+      }
+
+      const DomBar = {
+        template: `
+          <div>
+            <label>dom:</label>
+            <ul>
+              <li v-for="n in (length+1)" :key="n" :style="{'color':highlight&&highlight(n)?highlightColor:highlight2&&highlight2(n)?highlight2Color:''}">
+                {{n-1>-1?container[n-1]:''}}
+              </li>
+            </ul>
+          </div>
+        `,
+        props: {
+          length: Number,
+          highlight: Function,
+          highlightColor: String,
+          highlight2: Function,
+          highlight2Color: String,
+          container: Array,
+        },
+        setup() {
+          //
+        },
+      }
 
       const app = createApp({
+        components: {
+          IndexBar,
+          markBar,
+          listBar,
+          DomBar,
+        },
         setup() {
           const testUnits = ref([
             {
@@ -777,7 +609,7 @@
             {
               desc: '测试步骤5 - 6',
               from: 'abcdefgh',
-              to: 'abkdecijgh',
+              to: 'abtkdecijgh',
             },
           ])
 
@@ -816,9 +648,10 @@
             },
           )
 
-          const testSelect = item => {
+          const testSelect = ({ currentTarget }, item) => {
             from.value = item.from
             to.value = item.to
+            currentTarget.scrollIntoViewIfNeeded()
           }
 
           window.addEventListener('message', ({ detail }) => {
@@ -828,11 +661,26 @@
             }
           })
 
+          const fromList = computed(() => {
+            return from.value.split('')
+          })
+
+          const toList = computed(() => {
+            return to.value.split('')
+          })
+
+          const fromToMaxLength = computed(() =>
+            Math.max(fromList.value.length, toList.value.length),
+          )
+
           return {
             testUnits,
             testSelect,
             from,
             to,
+            fromList,
+            toList,
+            fromToMaxLength,
             done,
             logs,
             logsSnap,
