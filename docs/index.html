@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>diff - patchKeyedChildren</title>
-    <!-- <script src="../vue.global.js"></script> -->
-    <script src="../../packages/vue/dist/vue.global.js"></script>
+    <script src="./vue.global.js"></script>
+    <!-- <script src="../packages/vue/dist/vue.global.js"></script> -->
     <style>
       body {
         margin: 0;
@@ -313,7 +313,9 @@
               ></dom-bar>
             </template>
             <template v-else-if="item.type==='newIndexToOldIndexMap'">
-              <header>【newIndexToOldIndexMap】“to”【未知的序列】在“from”【未知的序列】序号关系</header>
+              <header>
+                【newIndexToOldIndexMap】“to”【未知的序列】在“from”【未知的序列】序号关系
+              </header>
               <index-bar
                 :length="fromToMaxLength"
                 :highlight="(n)=>item.newIndexToOldIndexMap.includes(n)"
@@ -395,7 +397,8 @@
               <header>
                 从后往前遍历 to
                 的【未知的序列】{{item.increasingNewIndexSequence.includes(item.nextIndex
-                - item.i)&&item.nextIndex - item.i>0?'【最长增长序列】中，跳过':''}}
+                - item.i)&&item.nextIndex -
+                item.i>0?'【最长增长序列】中，跳过':''}}
               </header>
               <index-bar :length="fromToMaxLength"></index-bar>
               <list-bar
