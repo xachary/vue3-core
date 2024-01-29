@@ -4,7 +4,7 @@
 
 > 如果您觉得还算有些参考价值，麻烦给一颗Star呗！
 
-[示例入口](https://xachary.github.io/vue3-core-study/)
+[示例入口](https://xachary.github.io/vue3-diff-study)
 
 ![Alt text](image.png)
 
