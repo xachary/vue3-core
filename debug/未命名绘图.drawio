@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-31T03:30:00.726Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="6r7DHuIpDtR0H9GmWKqs" version="23.0.2" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2024-01-31T03:34:47.562Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="VzTwdnw9nyz0FIqPusuH" version="23.0.2" type="github" pages="4">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="createApp">
     <mxGraphModel dx="1914" dy="3008" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -1583,7 +1583,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="b4VL8NaGwRyJN_aThJWm" name="第 4 页">
-    <mxGraphModel dx="2511" dy="1115" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3311" dy="1115" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1601,6 +1601,14 @@
         </mxCell>
         <mxCell id="CBM3yWNz4CSjMsVullHM-2" value="keyToDepMap: { target.key, dep}" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" parent="1" vertex="1">
           <mxGeometry x="-83" y="231" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-36" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="1" source="CBM3yWNz4CSjMsVullHM-3" target="B7LR83EBoPAKSwmWzbOf-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-92" y="360" />
+              <mxPoint x="-92" y="496" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="CBM3yWNz4CSjMsVullHM-3" value="dep: { effect, effect._trackId }" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" parent="1" vertex="1">
           <mxGeometry x="34" y="330" width="163" height="60" as="geometry" />
@@ -1686,22 +1694,40 @@
         <mxCell id="B7LR83EBoPAKSwmWzbOf-17" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div style=&quot;line-height: 19px;&quot;&gt;depsMap.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;set&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;key&lt;/span&gt;, (&lt;span style=&quot;color: #9cdcfe;&quot;&gt;dep&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa;&quot;&gt;createDep&lt;/span&gt;(() &lt;span style=&quot;color: #569cd6;&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;depsMap&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;!&lt;/span&gt;.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;delete&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;key&lt;/span&gt;))))&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-1">
           <mxGeometry x="311" y="521" width="515" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="B7LR83EBoPAKSwmWzbOf-24" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="1" source="B7LR83EBoPAKSwmWzbOf-23" target="B7LR83EBoPAKSwmWzbOf-3">
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-37" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="1" source="B7LR83EBoPAKSwmWzbOf-23" target="B7LR83EBoPAKSwmWzbOf-6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="B7LR83EBoPAKSwmWzbOf-23" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;let &lt;span style=&quot;color: #9cdcfe;&quot;&gt;activeEffect&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;ReactiveEffect&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;undefined&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
-          <mxGeometry x="-185" y="23" width="375" height="60" as="geometry" />
+          <mxGeometry x="-263" y="634" width="375" height="60" as="geometry" />
         </mxCell>
         <mxCell id="B7LR83EBoPAKSwmWzbOf-26" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="1" source="B7LR83EBoPAKSwmWzbOf-25" target="CBM3yWNz4CSjMsVullHM-4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="B7LR83EBoPAKSwmWzbOf-27" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="B7LR83EBoPAKSwmWzbOf-25" target="B7LR83EBoPAKSwmWzbOf-23">
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-27" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="B7LR83EBoPAKSwmWzbOf-25" target="B7LR83EBoPAKSwmWzbOf-23">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="B7LR83EBoPAKSwmWzbOf-25" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;class &lt;span style=&quot;color: #4ec9b0;&quot;&gt;ReactiveEffect&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;any&lt;/span&gt;&amp;gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
           <mxGeometry x="265" y="513" width="255" height="60" as="geometry" />
         </mxCell>
         <mxCell id="B7LR83EBoPAKSwmWzbOf-29" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.868;entryY=1.052;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="CBM3yWNz4CSjMsVullHM-3" target="CBM3yWNz4CSjMsVullHM-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-38" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #dcdcaa;&quot;&gt;trackEffect&lt;/span&gt;(&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;effect&lt;/span&gt;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;ReactiveEffect&lt;/span&gt;,&amp;nbsp;&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;dep&lt;/span&gt;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;Dep)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="swimlane;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
+          <mxGeometry x="-1657" y="639" width="723" height="444" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-40" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;dep.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;get&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;effect&lt;/span&gt;) &lt;span style=&quot;color: #d4d4d4;&quot;&gt;!==&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;effect&lt;/span&gt;.&lt;span style=&quot;color: #9cdcfe;&quot;&gt;_trackId&lt;/span&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-38">
+          <mxGeometry x="322" y="56" width="314" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-42" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="B7LR83EBoPAKSwmWzbOf-38" source="B7LR83EBoPAKSwmWzbOf-41" target="B7LR83EBoPAKSwmWzbOf-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-41" value="无需重复track" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-38">
+          <mxGeometry x="43" y="76.5" width="148" height="39" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-43" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;dep.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;set&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;effect&lt;/span&gt;, &lt;span style=&quot;color: #9cdcfe;&quot;&gt;effect&lt;/span&gt;.&lt;span style=&quot;color: #9cdcfe;&quot;&gt;_trackId&lt;/span&gt;)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-38">
+          <mxGeometry x="335.5" y="169" width="287" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-39" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.229;entryY=0.997;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="1" source="B7LR83EBoPAKSwmWzbOf-38" target="B7LR83EBoPAKSwmWzbOf-6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
