@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-31T05:47:55.203Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="-53ulrlwBQ3E4einkd2q" version="23.0.2" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2024-01-31T05:52:22.130Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="5_zymC8ASg-wQz4dIDhz" version="23.0.2" type="github" pages="4">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="createApp">
     <mxGraphModel dx="1914" dy="3008" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -1693,6 +1693,12 @@
         </mxCell>
         <mxCell id="B7LR83EBoPAKSwmWzbOf-17" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div style=&quot;line-height: 19px;&quot;&gt;depsMap.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;set&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;key&lt;/span&gt;, (&lt;span style=&quot;color: #9cdcfe;&quot;&gt;dep&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa;&quot;&gt;createDep&lt;/span&gt;(() &lt;span style=&quot;color: #569cd6;&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;depsMap&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;!&lt;/span&gt;.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;delete&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;key&lt;/span&gt;))))&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;" parent="B7LR83EBoPAKSwmWzbOf-1" vertex="1">
           <mxGeometry x="311" y="521" width="515" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-30" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="B7LR83EBoPAKSwmWzbOf-1" source="XNJliRj7jSokdH3NEvG4-29" target="B7LR83EBoPAKSwmWzbOf-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-29" value="此处不是回调，而是定义&lt;br&gt;dep.cleanup 方法" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-1">
+          <mxGeometry x="590" y="426" width="201" height="49" as="geometry" />
         </mxCell>
         <mxCell id="B7LR83EBoPAKSwmWzbOf-37" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" parent="1" source="B7LR83EBoPAKSwmWzbOf-23" target="B7LR83EBoPAKSwmWzbOf-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
