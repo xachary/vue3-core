@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-31T02:05:09.726Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="PKD77MQiypqf-QezQLNw" version="23.0.1" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2024-01-31T02:47:47.079Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="vq0H5FL4HpbI6OXtfgpA" version="23.0.2" type="github" pages="4">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="createApp">
     <mxGraphModel dx="1914" dy="3008" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -1583,21 +1583,39 @@
     </mxGraphModel>
   </diagram>
   <diagram id="b4VL8NaGwRyJN_aThJWm" name="第 4 页">
-    <mxGraphModel dx="1514" dy="608" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1914" dy="1008" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="CBM3yWNz4CSjMsVullHM-1" value="targetMap: { target, keyToDepMap}" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
+        <mxCell id="CBM3yWNz4CSjMsVullHM-1" value="targetMap: { target, keyToDepMap}" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" parent="1" vertex="1">
           <mxGeometry x="-185" y="125" width="199" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="CBM3yWNz4CSjMsVullHM-2" value="keyToDepMap: { target.key, dep}" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
+        <mxCell id="CBM3yWNz4CSjMsVullHM-2" value="keyToDepMap: { target.key, dep}" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" parent="1" vertex="1">
           <mxGeometry x="-72" y="209" width="190" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="CBM3yWNz4CSjMsVullHM-3" value="dep: { effect, effect._trackId }" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
+        <mxCell id="CBM3yWNz4CSjMsVullHM-3" value="dep: { effect, effect._trackId }" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" parent="1" vertex="1">
           <mxGeometry x="19" y="294" width="163" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="CBM3yWNz4CSjMsVullHM-4" value="effect: { deps, _trackId }" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
+        <mxCell id="CBM3yWNz4CSjMsVullHM-4" value="effect: { deps, _trackId }" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" parent="1" vertex="1">
           <mxGeometry x="83" y="379" width="217" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-1" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;track(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;target&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;object&lt;/span&gt;, &lt;span style=&quot;color: #9cdcfe;&quot;&gt;type&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;TrackOpTypes&lt;/span&gt;, &lt;span style=&quot;color: #9cdcfe;&quot;&gt;key&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;unknown&lt;/span&gt;)&lt;/div&gt;" style="swimlane;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-707" y="-110" width="497" height="635" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-2" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;shouldTrack&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-1">
+          <mxGeometry x="208.5" y="43" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-5" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;depsMap.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;get&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;key&lt;/span&gt;)&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-1">
+          <mxGeometry x="208.5" y="386" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-4" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;targetMap.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;get&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;target&lt;/span&gt;)&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-1">
+          <mxGeometry x="208.5" y="270" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-3" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;activeEffect&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-1">
+          <mxGeometry x="208.5" y="154" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="B7LR83EBoPAKSwmWzbOf-6" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;trackEffect(&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;activeEffect&lt;/span&gt;,&amp;nbsp;&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;dep)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="B7LR83EBoPAKSwmWzbOf-1">
+          <mxGeometry x="125" y="520" width="247" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
