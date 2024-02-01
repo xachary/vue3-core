@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-02-01T03:46:32.835Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="fs27-sf8tptwzvUXcglS" version="23.0.2" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2024-02-01T03:50:30.117Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="bEc7vEKVmPW-WpFPRy8k" version="23.0.2" type="github" pages="4">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="createApp">
     <mxGraphModel dx="1914" dy="3008" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -2130,6 +2130,12 @@
         </mxCell>
         <mxCell id="XNJliRj7jSokdH3NEvG4-138" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.173;entryY=0.001;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;exitX=0;exitY=0.696;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="XNJliRj7jSokdH3NEvG4-136" target="XNJliRj7jSokdH3NEvG4-104">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-147" value="" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="1" source="XNJliRj7jSokdH3NEvG4-146" target="XNJliRj7jSokdH3NEvG4-136">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-146" value="&lt;code style=&quot;padding: 2px 4px; border-radius: 4px; background-color: rgb(238, 238, 238); font-size: 14px;&quot;&gt;DirtyLevels&lt;/code&gt; 枚举值可以用来表示这些计算属性和副作用的优先级，它帮助调度器决定哪些副作用应该优先处理，以及在多次数据更新中哪次更新应该触发重新渲染，哪些可以合并处理或者跳过。" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=12;fontColor=default;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1179" y="2454" width="361" height="112" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
