@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-02-01T02:18:46.982Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="7z-vs-Xp0mBTvS2CUd9f" version="23.0.2" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2024-02-01T02:56:29.521Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="mfhVHjCgST1U75FdtlNR" version="23.0.2" type="github" pages="4">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="createApp">
     <mxGraphModel dx="1914" dy="3008" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -1583,7 +1583,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="b4VL8NaGwRyJN_aThJWm" name="第 4 页">
-    <mxGraphModel dx="6571" dy="2487" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="5383" dy="1608" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1830,7 +1830,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="XNJliRj7jSokdH3NEvG4-12" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;function &lt;span style=&quot;color: #dcdcaa;&quot;&gt;trigger&lt;/span&gt;(&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;target&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;object&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;type&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;TriggerOpTypes&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;key&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;?:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;unknown&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;newValue&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;?:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;unknown&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;oldValue&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;?:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;unknown&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;oldTarget&lt;/span&gt;&lt;span style=&quot;color: #d4d4d4;&quot;&gt;?:&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Map&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;unknown&lt;/span&gt;, &lt;span style=&quot;color: #4ec9b0;&quot;&gt;unknown&lt;/span&gt;&amp;gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Set&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0;&quot;&gt;unknown&lt;/span&gt;&amp;gt;,&lt;/div&gt;&lt;div&gt;)&lt;/div&gt;&lt;/div&gt;" style="swimlane;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;startSize=158;align=left;" vertex="1" parent="1">
-          <mxGeometry x="-235" y="895" width="1137" height="978" as="geometry" />
+          <mxGeometry x="-235" y="895" width="1289" height="978" as="geometry" />
         </mxCell>
         <mxCell id="XNJliRj7jSokdH3NEvG4-17" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;" edge="1" parent="XNJliRj7jSokdH3NEvG4-12" source="XNJliRj7jSokdH3NEvG4-13" target="XNJliRj7jSokdH3NEvG4-16">
           <mxGeometry relative="1" as="geometry" />
@@ -1852,11 +1852,39 @@
             <mxPoint y="1" as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-90" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;" edge="1" parent="XNJliRj7jSokdH3NEvG4-12" source="XNJliRj7jSokdH3NEvG4-16" target="XNJliRj7jSokdH3NEvG4-89">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-91" value="N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontFamily=Helvetica;fontColor=default;" vertex="1" connectable="0" parent="XNJliRj7jSokdH3NEvG4-90">
+          <mxGeometry x="-0.1799" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="XNJliRj7jSokdH3NEvG4-16" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;type &lt;span style=&quot;color: #d4d4d4;&quot;&gt;===&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;TriggerOpTypes&lt;/span&gt;.&lt;span style=&quot;color: #4fc1ff;&quot;&gt;CLEAR&lt;/span&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
           <mxGeometry x="476.5" y="352" width="298" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="XNJliRj7jSokdH3NEvG4-18" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;deps &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #d4d4d4;&quot;&gt;...&lt;/span&gt;&lt;span style=&quot;color: #4fc1ff;&quot;&gt;depsMap&lt;/span&gt;.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;values&lt;/span&gt;()]&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
-          <mxGeometry x="496" y="491" width="259" height="60" as="geometry" />
+        <mxCell id="XNJliRj7jSokdH3NEvG4-18" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;deps &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #d4d4d4;&quot;&gt;...&lt;/span&gt;&lt;span style=&quot;color: #4fc1ff;&quot;&gt;depsMap&lt;/span&gt;.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;values&lt;/span&gt;()]&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
+          <mxGeometry x="839" y="362" width="259" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-97" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;" edge="1" parent="XNJliRj7jSokdH3NEvG4-12" source="XNJliRj7jSokdH3NEvG4-89" target="XNJliRj7jSokdH3NEvG4-95">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-98" value="Y" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontFamily=Helvetica;fontColor=default;" vertex="1" connectable="0" parent="XNJliRj7jSokdH3NEvG4-97">
+          <mxGeometry x="0.08" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-89" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;key &lt;span style=&quot;color: #d4d4d4;&quot;&gt;===&lt;/span&gt; &lt;span style=&quot;color: #ce9178;&quot;&gt;&#39;length&#39;&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa;&quot;&gt;isArray&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;target&lt;/span&gt;)&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
+          <mxGeometry x="457.5" y="475" width="336" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-92" value="修改数组长度" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
+          <mxGeometry x="78" y="483.5" width="171" height="39" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-94" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.031;entryY=0.506;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="XNJliRj7jSokdH3NEvG4-12" source="XNJliRj7jSokdH3NEvG4-92" target="XNJliRj7jSokdH3NEvG4-89">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-95" value="遍历target的keyToDepMap&lt;br&gt;找到key是‘length’或者是‘下标超过新数组长度’的dep&lt;br&gt;先记录方法内变量deps中" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;align=left;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
+          <mxGeometry x="857" y="473" width="359.5" height="60" as="geometry" />
         </mxCell>
         <mxCell id="XNJliRj7jSokdH3NEvG4-32" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="XNJliRj7jSokdH3NEvG4-31" target="qVrBo9j4hCXk7is2nmt3-5">
           <mxGeometry relative="1" as="geometry" />
@@ -1946,6 +1974,12 @@
           <mxGeometry x="-2447" y="1446" width="611" height="815" as="geometry" />
         </mxCell>
         <mxCell id="XNJliRj7jSokdH3NEvG4-84" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="1" source="XNJliRj7jSokdH3NEvG4-82" target="XNJliRj7jSokdH3NEvG4-83">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-87" value="deleteProperty-&amp;gt;trigger-&amp;gt;...-&amp;gt;run-&amp;gt;postCleanupEffect-&amp;gt;cleanupDepEffect&lt;br style=&quot;margin: 0px; padding: 0px; box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: -apple-system, &amp;quot;SF UI Text&amp;quot;, Arial, &amp;quot;PingFang SC&amp;quot;, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, &amp;quot;WenQuanYi Micro Hei&amp;quot;, sans-serif, SimHei, SimSun; color: rgb(77, 77, 77); font-size: 16px; font-variant-ligatures: common-ligatures;&quot;&gt;&lt;span style=&quot;color: rgb(77, 77, 77); font-family: -apple-system, &amp;quot;SF UI Text&amp;quot;, Arial, &amp;quot;PingFang SC&amp;quot;, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, &amp;quot;WenQuanYi Micro Hei&amp;quot;, sans-serif, SimHei, SimSun; font-size: 16px; font-variant-ligatures: common-ligatures;&quot;&gt;此时，_depsLength 和 effect.deps.length 不同步，满足effect.deps.length &amp;gt; effect._depsLength，把尾部多出来的 effect 进行 cleanupDepEffect，此时可能出现 effect._trackId === trackId。&lt;/span&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=12;fontColor=default;align=left;" vertex="1" parent="1">
+          <mxGeometry x="-3037" y="1593" width="416" height="184" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-88" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.011;entryY=0.312;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="1" source="XNJliRj7jSokdH3NEvG4-87" target="XNJliRj7jSokdH3NEvG4-82">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
