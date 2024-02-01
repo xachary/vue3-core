@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-02-01T03:40:07.033Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="Xx_Scm9ic6oqw6ooTrM1" version="23.0.2" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2024-02-01T03:42:03.038Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="LVmT2z1rezeDZHrURy4h" version="23.0.2" type="github" pages="4">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="createApp">
     <mxGraphModel dx="1914" dy="3008" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -1863,7 +1863,7 @@
         <mxCell id="XNJliRj7jSokdH3NEvG4-16" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;type &lt;span style=&quot;color: #d4d4d4;&quot;&gt;===&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;TriggerOpTypes&lt;/span&gt;.&lt;span style=&quot;color: #4fc1ff;&quot;&gt;CLEAR&lt;/span&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
           <mxGeometry x="476.5" y="352" width="298" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="XNJliRj7jSokdH3NEvG4-18" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;deps &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #d4d4d4;&quot;&gt;...&lt;/span&gt;&lt;span style=&quot;color: #4fc1ff;&quot;&gt;depsMap&lt;/span&gt;.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;values&lt;/span&gt;()]&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
+        <mxCell id="XNJliRj7jSokdH3NEvG4-18" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;deps &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #d4d4d4;&quot;&gt;...&lt;/span&gt;&lt;span style=&quot;color: #4fc1ff;&quot;&gt;depsMap&lt;/span&gt;.&lt;span style=&quot;color: #dcdcaa;&quot;&gt;values&lt;/span&gt;()]&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
           <mxGeometry x="839" y="362" width="259" height="60" as="geometry" />
         </mxCell>
         <mxCell id="XNJliRj7jSokdH3NEvG4-97" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;" edge="1" parent="XNJliRj7jSokdH3NEvG4-12" source="XNJliRj7jSokdH3NEvG4-89" target="XNJliRj7jSokdH3NEvG4-95">
@@ -1992,6 +1992,12 @@
         </mxCell>
         <mxCell id="XNJliRj7jSokdH3NEvG4-129" value="通过下标添加" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
           <mxGeometry x="28" y="1057" width="77" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-135" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" edge="1" parent="XNJliRj7jSokdH3NEvG4-12" source="XNJliRj7jSokdH3NEvG4-134" target="XNJliRj7jSokdH3NEvG4-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XNJliRj7jSokdH3NEvG4-134" value="把target的keyToDepMap所有dep取出&lt;br&gt;后面重新triggerEffects" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="XNJliRj7jSokdH3NEvG4-12">
+          <mxGeometry x="942" y="209" width="214" height="92" as="geometry" />
         </mxCell>
         <mxCell id="XNJliRj7jSokdH3NEvG4-32" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="XNJliRj7jSokdH3NEvG4-31" target="qVrBo9j4hCXk7is2nmt3-5">
           <mxGeometry relative="1" as="geometry" />
