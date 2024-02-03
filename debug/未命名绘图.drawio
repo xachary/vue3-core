@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-02-03T07:32:27.038Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="vdPhQ0iOnqaZiba4slar" version="23.0.2" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2024-02-03T07:34:04.857Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="3l1JLueBwYml-Fr3ZLU1" version="23.0.2" type="github" pages="3">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="createApp">
     <mxGraphModel dx="2775" dy="3493" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -584,6 +584,9 @@
         </mxCell>
         <mxCell id="vR9m7-6arPyV4lNx2N7o-383" value="patchUnkeyedChildren" style="swimlane;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" parent="vR9m7-6arPyV4lNx2N7o-80" vertex="1">
           <mxGeometry x="2102" y="1235" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="kO9Hr_SpnRAgov7qG2MY-0" value="1、遍历长度重叠部分，逐个patch&lt;br&gt;2、旧多出的序列，unmount&lt;br&gt;3、新多出的序列，mount" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=12;fontColor=default;align=left;" vertex="1" parent="vR9m7-6arPyV4lNx2N7o-383">
+          <mxGeometry x="25" y="39" width="157" height="146" as="geometry" />
         </mxCell>
         <mxCell id="vR9m7-6arPyV4lNx2N7o-405" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;endArrow=classic;startSize=8;endSize=8;dashed=1;" parent="vR9m7-6arPyV4lNx2N7o-80" source="vR9m7-6arPyV4lNx2N7o-384" target="vR9m7-6arPyV4lNx2N7o-400" edge="1">
           <mxGeometry relative="1" as="geometry" />
