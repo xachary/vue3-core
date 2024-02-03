@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-02-03T02:34:53.933Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="zKKmWIpuorLU5-CuhzPW" version="23.0.2" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2024-02-03T07:26:03.905Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="KYIvwltYB6NydRo-eFnD" version="23.0.2" type="github" pages="3">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="createApp">
-    <mxGraphModel dx="2057" dy="3096" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="2775" dy="3493" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -163,7 +163,7 @@
         <mxCell id="vR9m7-6arPyV4lNx2N7o-125" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="vR9m7-6arPyV4lNx2N7o-98" source="vR9m7-6arPyV4lNx2N7o-118" target="vR9m7-6arPyV4lNx2N7o-124" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="vR9m7-6arPyV4lNx2N7o-118" value="app._component非方法、render、template" style="whiteSpace=wrap;html=1;rounded=1;" parent="vR9m7-6arPyV4lNx2N7o-98" vertex="1">
+        <mxCell id="vR9m7-6arPyV4lNx2N7o-118" value="app._component相关方法、render、template" style="whiteSpace=wrap;html=1;rounded=1;" parent="vR9m7-6arPyV4lNx2N7o-98" vertex="1">
           <mxGeometry x="107.5" y="149" width="135" height="60" as="geometry" />
         </mxCell>
         <mxCell id="vR9m7-6arPyV4lNx2N7o-127" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="vR9m7-6arPyV4lNx2N7o-98" source="vR9m7-6arPyV4lNx2N7o-124" target="vR9m7-6arPyV4lNx2N7o-126" edge="1">
