@@ -1826,7 +1826,7 @@ function baseCreateRenderer(
     }) => {
       if (container.classList.contains('done')) {
         ;(globalThis as any).dispatchEvent(
-          new CustomEvent('message', {
+          new CustomEvent('vue3_study_message', {
             detail: {
               scope,
               type,
